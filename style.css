@@ -1,0 +1,39 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+
+    background-color: black;
+    color: white;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.holder {
+    display: flex;
+    flex-flow: row nowrap;
+
+    aspect-ratio: 4/3;
+    height: 80%;
+}
+
+#game {
+    aspect-ratio: 4/3;
+    border: 2px solid yellow;
+
+    image-rendering: pixelated; image-rendering: crisp-edges;
+}
