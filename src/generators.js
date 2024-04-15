@@ -3,7 +3,7 @@ const
 	sqDist = (pointA, pointB) => (pointA.x - pointB.x) ** 2 + (pointA.y - pointB.y) ** 2,
 	pointDistance = (pointA, pointB) => Math.sqrt(sqDist(pointA, pointB)),
 	distanceSort = (points, anchor) => points.sort((pointa, pointb) => pointDistance(anchor, pointa) - pointDistance(anchor, pointb)),
-	entityDistanceSort = (entities, anchor) => entities.sort((enta, entb) => pointDistance(anchor.pos, enta.pos) - pointDistance(anchor.pos, entb.pos))
+	entityDistanceSort = (entities, anchor) => entities.filter(e => "pos" in e).sort((enta, entb) => pointDistance(anchor.pos, enta.pos) - pointDistance(anchor.pos, entb.pos))
 
 // behaviour
 const
@@ -70,9 +70,17 @@ const
 
 		behaviour: [onceRaw(init)]
 	}),
-	summon = (type, dim, x, y, overrides = {}, init = () => { }) => dim.entities.push(entity(type, { pos: { x, y }, ...overrides }, init)),
+	summon = (type, dim, { x, y }, overrides = {}, init = () => { }) => dim.entities.push(entity(type, { pos: { x, y }, ...overrides }, init)),
 	entity_process = init => ({ behaviour: [onceRaw(init)] }),
-	summon_process = (dim, init) => dim.entities.push(entity_process(init))
+	summon_process = (dim, init) => dim.entities.push(entity_process(init)),
+
+	remove = (dim, entity) => dim.entities.splice(dim.entities.indexOf(entity), 1);
+
+// bullet particle system generators
+const
+	particle_set = (root_entity, angle_offset) => ({
+
+	})
 
 const all = {
 	sqDist, pointDistance, distanceSort, entityDistanceSort,
@@ -86,7 +94,7 @@ const all = {
 	faceRaw, faceEntityRaw, faceVelocityRaw, velocityFacingRaw,
 	face, faceEntity, faceVelocity, velocityFacing, velocityFacingAdd,
 
-	entity, summon, entity_process, summon_process
+	entity, summon, entity_process, summon_process, remove
 };
 export {
 	sqDist, pointDistance, distanceSort, entityDistanceSort,
@@ -100,6 +108,6 @@ export {
 	faceRaw, faceEntityRaw, faceVelocityRaw, velocityFacingRaw,
 	face, faceEntity, faceVelocity, velocityFacing, velocityFacingAdd,
 
-	entity, summon, entity_process, summon_process
+	entity, summon, entity_process, summon_process, remove
 };
 export default all

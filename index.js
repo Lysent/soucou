@@ -11,22 +11,27 @@ const state = {
         main: {
             entities: [
                 // marker for world processing
-                entity_process((me, { here, animate }) => {
+                entity_process((me, { animate }) => {
                     // snowball rain
                     const snowball_count = 20;
                     let snowball_iter = 0;
                     animate(me, (me, { here, summon, canvas }) => {
-                        summon("snowball", here, (canvas.width - 50) / snowball_count * snowball_iter + 25, 0, { vel: { x: 0, y: 0.5 } })
+                        summon(
+                            "snowball",
+                            here,
+                            { x: (canvas.width - 50) / snowball_count * snowball_iter + 25, y: 0 },
+                            { vel: { x: 0, y: 0.5 } }
+                        )
                         snowball_iter++;
                     }, 50, snowball_count)
                 }),
 
                 // player
-                entity("player", { friction: Infinity }, (me, { canvas, loop }) => {
+                entity("player", { friction: Infinity, health: 200, ccooldown: 0 }, (me, { canvas, loop }) => {
                     me.pos = { x: canvas.width / 2, y: canvas.height - 20 };
 
                     // controls
-                    loop(me, (me, { keys }) => {
+                    loop(me, (me, { keys, here, entityDistanceSort, pointDistance, remove, summon }) => {
                         // movement
                         const speed = 1;
                         if (keys.ArrowDown) me.vel.y += speed;
@@ -37,11 +42,24 @@ const state = {
                         if (keys.ArrowLeft) me.vel.x -= speed;
 
                         // corruption
+                        if (me.ccooldown > 0) me.ccooldown--;
+                        if (keys.c && me.ccooldown == 0) {
+                            console.log("corr time")
+                            const corruptibles = entityDistanceSort(here.entities, me)
+                                .filter(e => e !== me)
+                                .filter(e => pointDistance(e.pos, me.pos) < 100)
+                                .slice(0, 3);
+                            corruptibles.forEach(e => {
+                                remove(here, e)
+                                summon("corrupt", here, { ...e.pos }, {}, (me, { wait }) => wait(me, (me, { remove, here, }) => remove(here, me), 100));
+                            });
+                            me.ccooldown = 100;
+                        }
                     }, 0);
 
                     loop(me, (me, { collisions, now }) => {
                         // ouch
-                        if(collisions.length > 0) console.log(`<player> oof ow ouch that hurts (${now})`)
+                        if (collisions.length > 0) console.log(`<player> oof ow ouch that hurts (${now})`)
                     }, 0)
                 }),
 
@@ -51,7 +69,7 @@ const state = {
                     animate(me, (me, { now }) => console.log("now", now), 100, 5);
                     loop(me, (me, { faceEntity, here, velocityFacing }) => {
                         faceEntity(me, here.entities[1]);
-                        velocityFacing(me, 2);
+                        velocityFacing(me, 4);
 
                         //console.log((me.rot / (Math.PI * 2) * 400).toFixed(2))
                     }, 100);
@@ -99,6 +117,19 @@ const state = {
                     const size = 4;
                     ctx.arc(0, 0, size, 0, 2 * Math.PI);
                     ctx.fillStyle = "white";
+                    ctx.fill();
+                })
+            ]
+        },
+        corrupt: {
+            bounds: { type: "void" },
+            collision: { box: { w: 6, h: 6 } },
+            images: [
+                procedure(ctx => {
+                    ctx.beginPath()
+                    const size = 4;
+                    ctx.arc(0, 0, size, 0, 2 * Math.PI);
+                    ctx.fillStyle = "grey";
                     ctx.fill();
                 })
             ]
