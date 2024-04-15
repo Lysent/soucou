@@ -4,8 +4,79 @@ import { animate, entity, entityDistanceSort, entity_process, faceEntity, loop, 
 
 const gamecanvas = document.querySelector("#game");
 
+const player = entity("player", { friction: Infinity, health: 100, maxHealth: 100, ccooldown: 0 }, (me, { canvas }) => {
+    me.pos = { x: canvas.width / 2, y: canvas.height - 20 };
+
+    // controls
+    loop(me, (me, { keys, here }) => {
+        // movement
+        const speed = 1;
+        if (keys.ArrowDown) me.vel.y += speed;
+        if (keys.ArrowUp) me.vel.y -= speed;
+        if (keys.ArrowRight) {
+            me.vel.x += speed;
+        }
+        if (keys.ArrowLeft) me.vel.x -= speed;
+
+        // corruption
+        if (me.ccooldown > 0) me.ccooldown--;
+        if (keys.c && me.ccooldown == 0) {
+            const corruptibles = entityDistanceSort(here.entities, me)
+                .filter(e => e !== me)
+                .filter(e => pointDistance(e.pos, me.pos) < 32)
+                .slice(0, 3);
+            corruptibles.forEach(e => {
+                remove(here, e);
+                summon("corrupt", here, { ...e.pos }, {}, me => wait(me, (me, { here }) => remove(here, me), 100));
+            });
+            me.ccooldown = 100;
+        }
+    }, 0);
+
+    // damage on contact
+    loop(me, (me, { collisions }) => {
+        const damaging = collisions.filter(c => !["corrupt", "player"].includes(c.type));
+        if (damaging.length > 0) {
+            hud.takingDamage = true;
+            damaging.forEach(() => me.health > 0 ? me.health-- : 0);
+        } else {
+            hud.takingDamage = false;
+        }
+        if(me.health == 0 && !hud.dead) {
+            hud.dead = true;
+            wait(me, () => location.href = "./you_died_lol.html", 100);
+        };
+    }, 0)
+
+    // regeneration
+    loop(me, me => me.health < me.maxHealth ? me.health++ : 0, 50)
+})
+
+const hud = entity("hud", {
+    takingDamage: false,
+    healthColor: "red",
+    health: 1,
+    corrupt: 1,
+    dead: false
+}, me => {
+    // sync
+    loop(me, me => {
+        me.health = player.health / player.maxHealth;
+        me.corrupt = 1 - player.ccooldown / 100;
+    }, 0);
+
+    // flash
+    loop(me, me => {
+        // health
+        me.takingDamage ? me.healthColor = me.healthColor == "red" ? "white" : "red" : me.healthColor = "red";
+
+        // death
+        me.dead ? me.fg = me.fg == false ? true : false : me.fg = false;
+    }, 10);
+})
+
 const state = {
-    showHitboxes: 1,
+    showHitboxes: 0,
 
     dims: {
         main: {
@@ -27,41 +98,10 @@ const state = {
                 }),
 
                 // player
-                entity("player", { friction: Infinity, health: 200, ccooldown: 0 }, (me, { canvas }) => {
-                    me.pos = { x: canvas.width / 2, y: canvas.height - 20 };
+                player,
 
-                    // controls
-                    loop(me, (me, { keys, here }) => {
-                        // movement
-                        const speed = 1;
-                        if (keys.ArrowDown) me.vel.y += speed;
-                        if (keys.ArrowUp) me.vel.y -= speed;
-                        if (keys.ArrowRight) {
-                            me.vel.x += speed;
-                        }
-                        if (keys.ArrowLeft) me.vel.x -= speed;
-
-                        // corruption
-                        if (me.ccooldown > 0) me.ccooldown--;
-                        if (keys.c && me.ccooldown == 0) {
-                            console.log("corr time")
-                            const corruptibles = entityDistanceSort(here.entities, me)
-                                .filter(e => e !== me)
-                                .filter(e => pointDistance(e.pos, me.pos) < 100)
-                                .slice(0, 3);
-                            corruptibles.forEach(e => {
-                                remove(here, e);
-                                summon("corrupt", here, { ...e.pos }, {}, me => wait(me, (me, { here }) => remove(here, me), 100));
-                            });
-                            me.ccooldown = 100;
-                        }
-                    }, 0);
-
-                    loop(me, (me, { collisions, now }) => {
-                        // ouch
-                        if (collisions.length > 0) console.log(`<player> oof ow ouch that hurts (${now})`)
-                    }, 0)
-                }),
+                // display hud
+                hud,
 
                 // The Bullet
                 entity("bullet", { vel: { x: 0, y: 2 }, friction: .01 }, (me, { canvas }) => {
@@ -131,6 +171,24 @@ const state = {
                     ctx.arc(0, 0, size, 0, 2 * Math.PI);
                     ctx.fillStyle = "grey";
                     ctx.fill();
+                })
+            ]
+        },
+        hud: {
+            images: [
+                procedure((ctx, canvas, me) => {
+                    const { width, height } = canvas;
+
+                    // health bar
+                    const health_height = 5;
+                    ctx.fillStyle = me.healthColor;
+                    ctx.fillRect(0, height, width * me.health, -health_height)
+
+                    // deathscreen
+                    if(me.fg){
+                        ctx.fillStyle = "white";
+                        ctx.fillRect(0, 0, width, height);
+                    }
                 })
             ]
         }

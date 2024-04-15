@@ -211,7 +211,7 @@ const Graphics = function (canvas, assets) {
                     ctx.drawImage(imagecontent, -imagecontent.width / 2, -imagecontent.height / 2, imagecontent.width, imagecontent.height);
                     break;
                 case "prc":
-                    imagecontent(ctx, entityobject);
+                    imagecontent(ctx, canvas, entityobject);
                     break;
             }
 
