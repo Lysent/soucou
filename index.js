@@ -1,6 +1,6 @@
 import { procedure, sprite } from "./src/assetloader.js";
 import { Game } from "./src/game.js";
-import { entity, entity_process } from "./src/generators.js";
+import { animate, entity, entityDistanceSort, entity_process, faceEntity, loop, pointDistance, remove, summon, velocityFacing, wait } from "./src/generators.js";
 
 const gamecanvas = document.querySelector("#game");
 
@@ -11,27 +11,27 @@ const state = {
         main: {
             entities: [
                 // marker for world processing
-                entity_process((me, { animate }) => {
+                entity_process(me => {
                     // snowball rain
                     const snowball_count = 20;
                     let snowball_iter = 0;
-                    animate(me, (me, { here, summon, canvas }) => {
+                    animate(me, (me, { here, canvas }) => {
                         summon(
                             "snowball",
                             here,
                             { x: (canvas.width - 50) / snowball_count * snowball_iter + 25, y: 0 },
                             { vel: { x: 0, y: 0.5 } }
-                        )
+                        );
                         snowball_iter++;
-                    }, 50, snowball_count)
+                    }, 50, snowball_count);
                 }),
 
                 // player
-                entity("player", { friction: Infinity, health: 200, ccooldown: 0 }, (me, { canvas, loop }) => {
+                entity("player", { friction: Infinity, health: 200, ccooldown: 0 }, (me, { canvas }) => {
                     me.pos = { x: canvas.width / 2, y: canvas.height - 20 };
 
                     // controls
-                    loop(me, (me, { keys, here, entityDistanceSort, pointDistance, remove, summon }) => {
+                    loop(me, (me, { keys, here }) => {
                         // movement
                         const speed = 1;
                         if (keys.ArrowDown) me.vel.y += speed;
@@ -50,8 +50,8 @@ const state = {
                                 .filter(e => pointDistance(e.pos, me.pos) < 100)
                                 .slice(0, 3);
                             corruptibles.forEach(e => {
-                                remove(here, e)
-                                summon("corrupt", here, { ...e.pos }, {}, (me, { wait }) => wait(me, (me, { remove, here, }) => remove(here, me), 100));
+                                remove(here, e);
+                                summon("corrupt", here, { ...e.pos }, {}, me => wait(me, (me, { here }) => remove(here, me), 100));
                             });
                             me.ccooldown = 100;
                         }
@@ -64,10 +64,10 @@ const state = {
                 }),
 
                 // The Bullet
-                entity("bullet", { vel: { x: 0, y: 2 }, friction: .01 }, (me, { canvas, animate, loop }) => {
+                entity("bullet", { vel: { x: 0, y: 2 }, friction: .01 }, (me, { canvas }) => {
                     me.pos.x = canvas.width / 2;
                     animate(me, (me, { now }) => console.log("now", now), 100, 5);
-                    loop(me, (me, { faceEntity, here, velocityFacing }) => {
+                    loop(me, (me, { here }) => {
                         faceEntity(me, here.entities[1]);
                         velocityFacing(me, 4);
 
@@ -78,7 +78,7 @@ const state = {
         },
         spawn: {
             entities: [
-                entity_process((me, { loop }) => {
+                entity_process(me => {
                     loop(me, (me, { keys }) => {
                         if (keys.Enter) game.joindim("main")
                     }, 0)

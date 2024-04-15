@@ -44,10 +44,7 @@ const Game = function (canvas, state) {
         const here = state.here;
 
         // behaviour context
-        const basebehaviourcontext = {
-            ...context, now, here, canvas,
-            ...generators
-        }
+        const basebehaviourcontext = { ...context, now, here, canvas };
 
         // run
         for (const [i, entity] of here.entities.entries()) {
@@ -96,8 +93,8 @@ const Game = function (canvas, state) {
                                 }
                                 behaviour[3]++;
                         }
-                    } catch (e) { 
-                        console.error(entity, e) 
+                    } catch (e) {
+                        console.error(entity, e)
                     };
                 }
             }
@@ -217,7 +214,7 @@ const Graphics = function (canvas, assets) {
                     imagecontent(ctx, entityobject);
                     break;
             }
-            
+
             ctx.restore();
         },
 
