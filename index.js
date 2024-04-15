@@ -42,7 +42,7 @@ const player = entity("player", { friction: Infinity, health: 100, maxHealth: 10
         } else {
             hud.takingDamage = false;
         }
-        if(me.health == 0 && !hud.dead) {
+        if (me.health == 0 && !hud.dead) {
             hud.dead = true;
             wait(me, () => location.href = "./you_died_lol.html", 100);
         };
@@ -180,12 +180,19 @@ const state = {
                     const { width, height } = canvas;
 
                     // health bar
-                    const health_height = 5;
+                    const health_height = 8;
                     ctx.fillStyle = me.healthColor;
                     ctx.fillRect(0, height, width * me.health, -health_height)
 
+                    // corrupt bar
+                    const corrupt_height = 5;
+                    ctx.fillStyle = me.corrupt < 1 ? "blue" : "grey";
+                    ctx.fillRect(0, height - health_height, width / 5 * me.corrupt, -corrupt_height)
+                    ctx.fillStyle = "white";
+                    ctx.fillRect(width / 5, height - health_height, 2, -corrupt_height)
+
                     // deathscreen
-                    if(me.fg){
+                    if (me.fg) {
                         ctx.fillStyle = "white";
                         ctx.fillRect(0, 0, width, height);
                     }
@@ -196,7 +203,7 @@ const state = {
 }
 
 const game = Game(gamecanvas, state);
-game.joindim("spawn");
+game.joindim("main");
 game.ticker.start();
 
 window.game = game;
