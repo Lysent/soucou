@@ -1,3 +1,10 @@
+// pure math
+const
+	sqDist = (pointA, pointB) => (pointA.x - pointB.x) ** 2 + (pointA.y - pointB.y) ** 2,
+	pointDistance = (pointA, pointB) => Math.sqrt(sqDist(pointA, pointB)),
+	distanceSort = (points, anchor) => points.sort((pointa, pointb) => pointDistance(anchor, pointa) - pointDistance(anchor, pointb)),
+	entityDistanceSort = (entities, anchor) => entities.sort((enta, entb) => pointDistance(anchor.pos, enta.pos) - pointDistance(anchor.pos, entb.pos))
+
 // behaviour
 const
 	onceRaw = fn => ["once", fn],
@@ -68,6 +75,8 @@ const
 	summon_process = (dim, init) => dim.entities.push(entity_process(init))
 
 const all = {
+	sqDist, pointDistance, distanceSort, entityDistanceSort,
+
 	onceRaw, waitRaw, loopRaw,
 	once, wait, loop,
 
@@ -80,6 +89,8 @@ const all = {
 	entity, summon, entity_process, summon_process
 };
 export {
+	sqDist, pointDistance, distanceSort, entityDistanceSort,
+
 	onceRaw, waitRaw, loopRaw,
 	once, wait, loop,
 
