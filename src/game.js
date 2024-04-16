@@ -1,5 +1,4 @@
 import { Ticker } from "./tick.js";
-import generators from "./generators.js";
 import { Canvas, adaptBox, isRectCollide } from "./hitboxes.js";
 
 const Game = function (canvas, state) {
