@@ -70,9 +70,17 @@ const
 
 		behaviour: [onceRaw(init)]
 	}),
-	summon = (type, dim, { x, y }, overrides = {}, init = () => { }) => dim.entities.push(entity(type, { pos: { x, y }, ...overrides }, init)),
+	summon = (type, dim, { x, y }, overrides = {}, init = () => { }) => {
+		const e = entity(type, { pos: { x, y }, ...overrides }, init);
+		dim.entities.push(e);
+		return e;
+	},
 	entity_process = init => ({ behaviour: [onceRaw(init)] }),
-	summon_process = (dim, init) => dim.entities.push(entity_process(init)),
+	summon_process = (dim, init) => {
+		const ep = entity_process(init);
+		dim.entities.push(ep);
+		return ep;
+	},
 
 	remove = (dim, entity) => dim.entities.splice(dim.entities.indexOf(entity), 1);
 
