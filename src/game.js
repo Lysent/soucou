@@ -30,7 +30,7 @@ const Game = function (canvas, state) {
                 .filter(entity => "type" in entity && "collision" in state.assets[entity.type])
                 .map(entity => adaptBox([entity, state.assets[entity.type].collision.box]));
             hitboxes.forEach(rect => graphics.hitbox(rect));
-            if (state.showHitboxes >= 2 && entities[1]?.type) Canvas.draw(adaptBox([entities[1], state.assets[entities[1].type].collision.box]), hitboxes);
+            if (state.showHitboxes >= 2 && entities[2]?.type) Canvas.draw(adaptBox([entities[2], state.assets[entities[2].type].collision.box]), hitboxes);
         }
     }
     ticker.setDraw(draw);
