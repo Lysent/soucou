@@ -92,7 +92,13 @@ const state = {
                             "snowball",
                             here,
                             { x: (canvas.width - 50) / snowball_count * snowball_iter + 25, y: 0 },
-                            { vel: { x: 0, y: 0.5 } }
+                            { vel: { x: 0, y: 0.5 } },
+                            me => {
+                                loop(me, me => {
+                                    faceEntity(me, player);
+                                    velocityFacingAdd(me, 0.02);
+                                }, 10)
+                            }
                         );
                         snowball_iter++;
                     }, 50, snowball_count);
