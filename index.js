@@ -220,6 +220,19 @@ const state = {
                 })
             ]
         },
+        cheeto_segment: {
+            bounds: { type: "soft-void", tolerance: 100 },
+            collision: { box: { w: 14, h: 14 } },
+            images: [
+                procedure(ctx => {
+                    ctx.beginPath()
+                    const size = 10;
+                    ctx.arc(0, 0, size, 0, 2 * Math.PI);
+                    ctx.fillStyle = "yellow";
+                    ctx.fill();
+                })
+            ]
+        },
         corrupt: {
             bounds: { type: "void" },
             collision: { box: { w: 6, h: 6 } },
