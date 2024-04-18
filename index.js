@@ -27,7 +27,7 @@ const player = entity("player", { friction: Infinity, health: 100, maxHealth: 10
                 .slice(0, 3);
             corruptibles.forEach(e => {
                 remove(here, e);
-                summon("corrupt", here, { ...e.pos }, {}, me => wait(me, (me, { here }) => remove(here, me), 100));
+                summon("corrupt", here, { ...e.pos }, {}, me => wait(me, (me, { here }) => remove(here, me), 40));
             });
             me.ccooldown = 100;
         }
