@@ -1,6 +1,6 @@
 import { procedure, sprite } from "./src/assetloader.js";
 import { Game } from "./src/game.js";
-import { animate, entity, entityDistanceSort, entity_process, face, faceEntity, loop, pointDistance, remove, summon, velocityFacing, velocityFacingAdd, wait } from "./src/generators.js";
+import { animate, entity, entityDistanceSort, entity_process, faceEntity, loop, pointDistance, remove, summon, velocityFacing, wait } from "./src/generators.js";
 
 const gamecanvas = document.querySelector("#game");
 
@@ -38,7 +38,8 @@ const player = entity("player", { friction: Infinity, health: 100, maxHealth: 10
         const damaging = collisions.filter(c => !["corrupt", "player"].includes(c.type));
         if (damaging.length > 0) {
             hud.takingDamage = true;
-            damaging.forEach(() => me.health > 0 ? me.health-- : 0);
+            me.health > 0 ? me.health-- : 0
+            //damaging.forEach(() => me.health > 0 ? me.health-- : 0);
         } else {
             hud.takingDamage = false;
         }
