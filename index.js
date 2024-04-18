@@ -159,6 +159,9 @@ const state = {
                 // display hud
                 hud,
 
+                // player
+                player,
+
                 // The Bullet
                 entity("bullet", { vel: { x: 0, y: 2 }, friction: .01 }, (me, { canvas }) => {
                     me.pos.x = canvas.width / 2;
