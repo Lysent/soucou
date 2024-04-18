@@ -167,7 +167,7 @@ const state = {
                     me.pos.x = canvas.width / 2;
                     animate(me, (me, { now }) => console.log("now", now), 100, 5);
                     loop(me, (me, { here }) => {
-                        faceEntity(me, here.entities[1]);
+                        faceEntity(me, player);
                         velocityFacing(me, 4);
 
                         //console.log((me.rot / (Math.PI * 2) * 400).toFixed(2))
