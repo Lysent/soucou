@@ -153,9 +153,6 @@ const state = {
                     }, 800);
                 }),
 
-                // player
-                player,
-
                 // display hud
                 hud,
 
