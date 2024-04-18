@@ -1,6 +1,6 @@
 import { procedure, sprite } from "./src/assetloader.js";
 import { Game } from "./src/game.js";
-import { animate, entity, entityDistanceSort, entity_process, faceEntity, loop, pointDistance, remove, summon, velocityFacing, wait } from "./src/generators.js";
+import { animate, entity, entityDistanceSort, entity_process, face, faceEntity, loop, pointDistance, remove, summon, velocityFacing, velocityFacingAdd, wait } from "./src/generators.js";
 
 const gamecanvas = document.querySelector("#game");
 
