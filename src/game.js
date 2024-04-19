@@ -50,7 +50,11 @@ const Game = function (canvas, state) {
 
             const type = state.assets[entity.type] || {};
 
-            const behaviourcontext = { ...basebehaviourcontext, collisions: [] };
+            const behaviourcontext = { 
+                ...basebehaviourcontext, 
+                collisions: [],
+
+            };
 
             // collisions
             if ("collision" in type && type.collision.origin === true) {
@@ -72,22 +76,26 @@ const Game = function (canvas, state) {
                         entity.behaviour.splice(i, 1);
                         break;
                     }
+                    const context = {
+                        ...behaviourcontext,
+                        destroy: () => entity.behaviour.splice(i, 1)
+                    }
                     try {
                         switch (behaviour[0]) {
                             case "once":
-                                behaviour[1](entity, behaviourcontext);
-                                entity.behaviour.splice(i, 1);
+                                behaviour[1](entity, context);
+                                context.destroy();
                                 break;
                             case "wait":
                                 if (behaviour[1] <= 0) {
-                                    behaviour[2](entity, behaviourcontext);
-                                    entity.behaviour.splice(i, 1);
+                                    behaviour[2](entity, context);
+                                    context.destroy();
                                 }
                                 behaviour[1]--;
                                 break;
                             case "loop":
                                 if (behaviour[3] >= behaviour[1]) {
-                                    behaviour[2](entity, behaviourcontext, behaviour[3]);
+                                    behaviour[2](entity, context, behaviour[3]);
                                     behaviour[3] = 0;
                                 }
                                 behaviour[3]++;
