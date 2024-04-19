@@ -18,6 +18,13 @@ const player = entity("player", { friction: Infinity, health: 100, maxHealth: 10
         }
         if (keys.ArrowLeft) me.vel.x -= speed;
 
+        // change sprite direction
+        me.vel.x > 0
+            ? me.animstate = 2
+            : me.vel.x < 0
+                ? me.animstate = 1
+                : me.animstate = 0;
+
         // corruption
         if (me.ccooldown > 0) me.ccooldown--;
         if (keys.c && me.ccooldown == 0) {
@@ -194,7 +201,9 @@ const state = {
                 box: { w: 10, h: 14 }
             },
             images: [
-                await sprite("./assets/player.png")
+                await sprite("./assets/player.png"),
+                await sprite("./assets/lisotem_left.png"),
+                await sprite("./assets/lisotem_right.png")
             ]
         },
         bullet: {
