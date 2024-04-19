@@ -21,7 +21,7 @@ const Game = function (canvas, state) {
     const draw = () => {
         const entities = state.here.entities;
 
-        graphics.background("black");
+        graphics.background("#292628");
 
         entities.forEach(e => graphics.entity(e));
 
