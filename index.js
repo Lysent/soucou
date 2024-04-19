@@ -198,10 +198,10 @@ const state = {
             bounds: { type: "hard" },
             collision: {
                 origin: true,
-                box: { w: 10, h: 14 }
+                box: { w: 4, h: 32 }
             },
             images: [
-                await sprite("./assets/player.png"),
+                await sprite("./assets/lisotem.png"),
                 await sprite("./assets/lisotem_left.png"),
                 await sprite("./assets/lisotem_right.png")
             ]
