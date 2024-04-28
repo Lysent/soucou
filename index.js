@@ -4,7 +4,7 @@ import { animate, entity, entityDistanceSort, entity_process, face, faceEntity, 
 
 const gamecanvas = document.querySelector("#game");
 
-const player = entity("player", { friction: Infinity, health: 100, maxHealth: 100, ccooldown: 0 }, (me, { canvas }) => {
+const player = entity("player", { friction: Infinity, health: 50, maxHealth: 50, ccooldown: 0 }, (me, { canvas }) => {
     me.pos = { x: canvas.width / 2, y: canvas.height - 20 };
 
     // controls
@@ -58,7 +58,7 @@ const player = entity("player", { friction: Infinity, health: 100, maxHealth: 10
     }, 0)
 
     // regeneration
-    loop(me, me => me.health < me.maxHealth ? me.health++ : 0, 50)
+    loop(me, me => me.health < me.maxHealth ? me.health++ : 0, 140);
 })
 
 const hud = entity("hud", {
