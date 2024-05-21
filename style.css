@@ -35,5 +35,7 @@ body {
     aspect-ratio: 4/3;
     border: 2px solid yellow;
 
+    width: 100vw;
+
     image-rendering: pixelated; image-rendering: crisp-edges;
 }

@@ -1,0 +1,16 @@
+html,
+
+.box {
+    position:relative;
+    border: 1px solid #000;
+}
+
+.portrait1 {
+    position: absolute;
+    object-position: -250px;
+}
+
+.portrait2 {
+    position: absolute;
+    object-position: 450px;
+}
