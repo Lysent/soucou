@@ -15,6 +15,16 @@ const Game = function (canvas, state) {
     document.addEventListener("keyup", e => keys[e.key] = false);
 
     //
+    // Always (out-of-loop inputs)
+    let pausebtn = false, prevpause = false;
+    const always = () => {
+        pausebtn = !!keys.n;
+        if(pausebtn == true && prevpause == false) ticker.pause();
+        prevpause = pausebtn;
+    };
+    ticker.setAlways(always);
+
+    //
     // graphics ticking
     Canvas.init(canvas);
     const graphics = new Graphics(canvas, state.assets);

@@ -11,6 +11,7 @@ const Ticker = function (opt) {
 		performanceAlpha = opt.perfNewValueWeight || 0.9;
 
 	let
+		always = async () => { },
 		begin = async () => { },
 		update = async () => { },
 		draw = async () => { },
@@ -25,7 +26,8 @@ const Ticker = function (opt) {
 		frameHandle = 0,
 		started = false,
 		running = false,
-		panic = false;
+		panic = false,
+		pause = false;
 
 	let perf = { fps: 1000 / minFrameInterval, tps: targetTps, mspt: 0, cpt: 0, deviation: 0, effort: 0, interval: minFrameInterval };
 	const weightPerf = (old, new_) => performanceAlpha * new_ + (1 - performanceAlpha) * old;
@@ -54,6 +56,7 @@ const Ticker = function (opt) {
 	const cancelFrame = globalThis.cancelAnimationFrame || clearInterval;
 
 	const api = {
+		setAlways(cb) { always = cb || always; return this },
 		setBegin(cb) { begin = cb || begin; return this },
 		setUpdate(cb) { update = cb || update; return this },
 		setDraw(cb) { draw = cb || draw; return this },
@@ -93,6 +96,10 @@ const Ticker = function (opt) {
 			cancelFrame(frameHandle);
 			return this;
 		},
+		pause(state){
+			if (!state) pause ^= 1;
+			if(state) pause = state;
+		},
 
 		perf() { return perf }
 	}
@@ -104,15 +111,24 @@ const Ticker = function (opt) {
 	async function clock(timestamp) {
 		frameHandle = requestFrame(clock);
 
+		// always process, for things like pause toggles, etc
+		await always();
+
 		// throttling clock rate (minFrameInterval)
 		if (timestamp < lastClockTime + minFrameInterval) return;
+
+		// pause logic
+		if(pause){
+			lastClockTime = timestamp;
+			return;
+		}
 
 		startTick = performance.now();
 
 		clockDelta += timestamp - lastClockTime;
 		lastClockTime = timestamp;
 
-		// constant processing
+		// constant start processing
 		await begin(timestamp, clockDelta);
 
 		// update
