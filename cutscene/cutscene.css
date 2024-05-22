@@ -4,6 +4,8 @@ body {
 	padding: 0;
 	height: 100dvh;
 	width: 100dvw;
+
+	overflow:hidden;
 }
 
 .container {
@@ -13,6 +15,7 @@ body {
 	place-content: center;
 
 	height: 100%;
+	aspect-ratio: 4/3;
 }
 
 .background,
@@ -36,6 +39,7 @@ body {
 .portrait1,
 .portrait2 {
 	width: 100%;
+	align-self: flex-end;
 }
 
 .portrait1 {
@@ -48,16 +52,24 @@ body {
 
 .ui {
 	grid-template-rows: 80% 2ch 10ch 1fr;
-	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-columns: 1fr 80ch 1fr;
 }
 
 .textbox {
 	width: 100%;
+	height: 100%;
+	background: black;
 	grid-area: 2/2/4/3;
+}
+
+.title, .text {
+	font-family: Verdana;
+	color: white;
 }
 
 .title {
 	grid-area: 2/2;
+    font-weight: bold;
 }
 
 .text {
