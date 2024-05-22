@@ -1,0 +1,65 @@
+html,
+body {
+	margin: 0;
+	padding: 0;
+	height: 100dvh;
+	width: 100dvw;
+}
+
+.container {
+	display: grid;
+	grid-template: "container" 1fr / 1fr;
+	place-items: center;
+	place-content: center;
+
+	height: 100%;
+}
+
+.background,
+.avatars,
+.ui {
+	grid-area: container;
+	display: grid;
+
+	height: 100%;
+	width: 100%;
+}
+
+.avatars {
+	grid-template-rows: var(--border) 1fr var(--border);
+
+	--border: 1%;
+	--avatar-width: 1fr;
+	grid-template-columns: var(--border) var(--avatar-width) 1fr var(--avatar-width) var(--border);
+}
+
+.portrait1,
+.portrait2 {
+	width: 100%;
+}
+
+.portrait1 {
+	grid-area: 2/2;
+}
+
+.portrait2 {
+	grid-area: 2/4;
+}
+
+.ui {
+	grid-template-rows: 80% 2ch 10ch 1fr;
+	grid-template-columns: 1fr 1fr 1fr;
+}
+
+.textbox {
+	width: 100%;
+	grid-area: 2/2/4/3;
+}
+
+.title {
+	grid-area: 2/2;
+}
+
+.text {
+	grid-area: 3/2;
+}
