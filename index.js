@@ -27,16 +27,18 @@ const player = entity("player", { friction: Infinity, health: 50, maxHealth: 50,
 
         // corruption
         if (me.ccooldown > 0) me.ccooldown--;
-        if (keys.c && me.ccooldown == 0) {
-            const corruptibles = entityDistanceSort(here.entities, me)
-                .filter(e => e !== me)
-                .filter(e => pointDistance(e.pos, me.pos) < 40)
-                .slice(0, 3);
-            corruptibles.forEach(e => {
-                if ("health" in e) return e.health -= 1;
-                remove(here, e);
-                summon("corrupt", here, { ...e.pos }, {}, me => wait(me, (me, { here }) => remove(here, me), 40));
-            });
+        if ((keys.c || keys.x) && me.ccooldown == 0) {
+            (() => {
+                const corruptibles = entityDistanceSort(here.entities, me)
+                    .filter(e => e !== me)
+                    .filter(e => pointDistance(e.pos, me.pos) < 40)
+                    .slice(0, 3);
+                corruptibles.forEach(e => {
+                    if ("health" in e) return e.health -= 1;
+                    remove(here, e);
+                    summon("corrupt", here, { ...e.pos }, {}, me => wait(me, (me, { here }) => remove(here, me), 40));
+                });
+            })();
             me.ccooldown = 100;
         }
     }, 0);
