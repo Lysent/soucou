@@ -75,7 +75,9 @@ let currentIndex = 0;
 
 const titleElement = document.querySelector('.title');
 const textElement = document.querySelector('.text');
-// const imageElement = document.querySelector('.image');
+const portrait1Element = document.querySelector('.portrait1');
+const portrait2Element = document.querySelector('.portrait2');
+const textboxElement = document.querySelector('.textbox');
 
 const advance = () => {
     const i = currentIndex;
@@ -88,8 +90,10 @@ const advance = () => {
 
     textElement.textContent = scene.text;
     titleElement.textContent = scene.title;
-    // imageElement.src = images[currentIndex].src;
-    // imageElement.alt = images[currentIndex].alt;
+    portrait1Element.src = scene.images.portrait1;
+    portrait1Element.alt = scene.images.portrait1 ? `Portrait 1 for scene ${currentIndex}` : "";
+    portrait2Element.src = scene.images.portrait2;
+    portrait2Element.alt = scene.images.portrait2 ? `Portrait 2 for scene ${currentIndex}` : "";
 }
 
 document.addEventListener('click', () => advance());

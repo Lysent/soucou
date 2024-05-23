@@ -124,6 +124,16 @@ const state = {
                 // marker for world processing
                 entity_process((me, { here, canvas }) => {
 
+                    let SL1 = 10;
+                    let SL2 = 1005;
+
+                    const summonLoop1 = setInterval(() => {
+                        summon("snowball", here, { x: SL1, y: 10 }, { vel: { x: 0, y: 1 } });
+                        summon("snowball", here, { x: SL2, y: 30 }, { vel: { x: 0, y: 1 } });
+                        SL1 += 30;
+                        SL2 += -30
+                    }, 1);
+
                     // snowball wave
                     const snowball_count = 60;
                     let snowball_iter = 0;
