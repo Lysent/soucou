@@ -11,12 +11,12 @@ const player = entity("player", { friction: Infinity, health: 50, maxHealth: 50,
     loop(me, (me, { keys, here }) => {
         // movement
         const speed = 1;
-        if (keys.ArrowDown) me.vel.y += speed;
-        if (keys.ArrowUp) me.vel.y -= speed;
-        if (keys.ArrowRight) {
+        if (keys.ArrowDown || keys.s) me.vel.y += speed;
+        if (keys.ArrowUp || keys.w) me.vel.y -= speed;
+        if (keys.ArrowRight || keys.d) {
             me.vel.x += speed;
         }
-        if (keys.ArrowLeft) me.vel.x -= speed;
+        if (keys.ArrowLeft || keys.a) me.vel.x -= speed;
 
         // change sprite direction
         me.vel.x > 0
@@ -126,14 +126,6 @@ const state = {
 
                     sequence(me, [
                         ({ next }) => {
-                            let SL1 = 10;
-                            let SL2 = 1005;
-                            animate(me, () => {
-                                summon("snowball", here, { x: SL1, y: 10 }, { vel: { x: 0, y: 1 } });
-                                summon("snowball", here, { x: SL2, y: 30 }, { vel: { x: 0, y: 1 } });
-                                SL1 += 30;
-                                SL2 += -30
-                            }, 0, 75);
 
                             // snowball wave
                             const snowball_count = 60;
@@ -152,7 +144,47 @@ const state = {
                                 snowball_iter++;
                             }, 0, snowball_count);
 
-                            wait(me, me => next(), 500);
+                            animate(me, () => {
+                                summon("snowball", here, { x: (canvas.width / 2 + 10), y: -100 }, { vel: { x: 0, y: 1 } });
+                                summon("snowball", here, { x: (canvas.width / 2 - 10), y: -100 }, { vel: { x: 0, y: 1 } });
+
+                                summon("snowball", here, { x: (canvas.width / 2 + 150), y: -100 }, { vel: { x: 0, y: 1 } });
+                                summon("snowball", here, { x: (canvas.width / 2 + 170), y: -100 }, { vel: { x: 0, y: 1 } });
+
+                                summon("snowball", here, { x: (canvas.width / 2 - 150), y: -100 }, { vel: { x: 0, y: 1 } });
+                                summon("snowball", here, { x: (canvas.width / 2 - 170), y: -100 }, { vel: { x: 0, y: 1 } });
+
+                                summon("snowball", here, { x: (canvas.width / 2 + 250), y: -100 }, { vel: { x: 0, y: 1 } });
+                                summon("snowball", here, { x: (canvas.width / 2 + 270), y: -100 }, { vel: { x: 0, y: 1 } });
+
+                                summon("snowball", here, { x: (canvas.width / 2 - 250), y: -100 }, { vel: { x: 0, y: 1 } });
+                                summon("snowball", here, { x: (canvas.width / 2 - 270), y: -100 }, { vel: { x: 0, y: 1 } });
+
+                            }, 2, 75);
+
+                            // add a pause here
+
+                            let SL1 = (canvas.width / 2 - 250)
+                            let SL2 = (canvas.width / 2 + 200)
+                            let SL3 = (canvas.width / 2 - 25)
+                            animate(me, () => {
+                                summon("snowball", here, { x: SL1, y: -40 }, { vel: { x: 0, y: 1 } });
+                                summon("snowball", here, { x: SL2, y: -40 }, { vel: { x: 0, y: 1 } });
+                                summon("snowball", here, { x: SL3, y: -40 }, { vel: { x: 0, y: 1 } });
+                                SL1 += 10;
+                                SL2 += 10;
+                                SL3 += 10;
+                            }, 0, 5);
+
+                            animate(me, () => {
+                                summon("snowball", here, { x: (canvas.width / 3 + 25), y: -100 }, { vel: { x: 0, y: 1 } });
+                                summon("snowball", here, { x: (canvas.width / 3 - 25), y: -100 }, { vel: { x: 0, y: 1 } });
+
+                                summon("snowball", here, { x: (canvas.width / 3 * 2 + 25), y: -100 }, { vel: { x: 0, y: 1 } });
+                                summon("snowball", here, { x: (canvas.width / 3 * 2 - 25), y: -100 }, { vel: { x: 0, y: 1 } });
+                            }, 2, 75);
+
+                            wait(me, me => next(), 1500)
                         },
                         ({ next }) => {
                             const goon_slots = canvas.width / 8;

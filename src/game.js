@@ -18,7 +18,7 @@ const Game = function (canvas, state) {
     // Always (out-of-loop inputs)
     let pausebtn = false, prevpause = false;
     const always = () => {
-        pausebtn = !!keys.n;
+        pausebtn = !!(keys.n || keys.Escape);
         if(pausebtn == true && prevpause == false) ticker.pause();
         prevpause = pausebtn;
     };
