@@ -31,10 +31,38 @@ const
 		const out = [];
 		for (let i = 0; i < iterations; i++) out.push(waitRaw(fn, delay * i));
 		return out;
-	}
+	},
+	sequenceRaw = (fnsequence) => {
+		let i = 0;
+		let destroyfns = [];
+		const destroy = () => {
+			destroyfns.forEach(fn => fn());
+			destroyfns = [];
+		};
+		const update = () => {
+			destroy();
+			fnsequence[i](context);
+		}
+
+		const context = {
+			next() { context.goto(i + 1) },
+			back() { context.goto(i - 1) },
+			goto(n) {
+				destroy();
+				i = n;
+				update();
+			},
+			onDestroy(fn) {
+				destroyfns.push(fn);
+			}
+		}
+
+		return [onceRaw(() => update())];
+	};
 const
 	schedule = (e, schedule) => pushBehaviour(e, scheduleRaw(schedule)),
-	animate = (e, fn, delay, iterations) => pushBehaviour(e, animateRaw(fn, delay, iterations))
+	animate = (e, fn, delay, iterations) => pushBehaviour(e, animateRaw(fn, delay, iterations)),
+	sequence = (e, fnsequence) => pushBehaviour(e, sequenceRaw(fnsequence));
 
 // entity manipulators
 const angle = (ori, dest) => -Math.atan2(dest.y - ori.y, dest.x - ori.x);
@@ -96,8 +124,8 @@ const all = {
 	onceRaw, waitRaw, loopRaw,
 	once, wait, loop,
 
-	scheduleRaw, animateRaw,
-	schedule, animate,
+	scheduleRaw, animateRaw, sequenceRaw,
+	schedule, animate, sequence,
 
 	faceRaw, faceEntityRaw, faceVelocityRaw, velocityFacingRaw,
 	face, faceEntity, faceVelocity, velocityFacing, velocityFacingAdd,
@@ -110,8 +138,8 @@ export {
 	onceRaw, waitRaw, loopRaw,
 	once, wait, loop,
 
-	scheduleRaw, animateRaw,
-	schedule, animate,
+	scheduleRaw, animateRaw, sequenceRaw,
+	schedule, animate, sequence,
 
 	faceRaw, faceEntityRaw, faceVelocityRaw, velocityFacingRaw,
 	face, faceEntity, faceVelocity, velocityFacing, velocityFacingAdd,

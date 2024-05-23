@@ -1,6 +1,6 @@
 import { procedure, sprite } from "./src/assetloader.js";
 import { Game } from "./src/game.js";
-import { animate, entity, entityDistanceSort, entity_process, face, faceEntity, faceEntityRaw, loop, pointDistance, remove, summon, velocityFacing, velocityFacingAdd, wait } from "./src/generators.js";
+import { animate, entity, entityDistanceSort, entity_process, face, faceEntity, faceEntityRaw, loop, pointDistance, remove, summon, velocityFacing, wait, sequence } from "./src/generators.js";
 
 const gamecanvas = document.querySelector("#game");
 
@@ -124,216 +124,219 @@ const state = {
                 // marker for world processing
                 entity_process((me, { here, canvas }) => {
 
-                    let SL1 = 10;
-                    let SL2 = 1005;
+                    sequence(me, [
+                        ({ next }) => {
+                            let SL1 = 10;
+                            let SL2 = 1005;
+                            animate(me, () => {
+                                summon("snowball", here, { x: SL1, y: 10 }, { vel: { x: 0, y: 1 } });
+                                summon("snowball", here, { x: SL2, y: 30 }, { vel: { x: 0, y: 1 } });
+                                SL1 += 30;
+                                SL2 += -30
+                            }, 0, 75);
 
-                    const summonLoop1 = setInterval(() => {
-                        summon("snowball", here, { x: SL1, y: 10 }, { vel: { x: 0, y: 1 } });
-                        summon("snowball", here, { x: SL2, y: 30 }, { vel: { x: 0, y: 1 } });
-                        SL1 += 30;
-                        SL2 += -30
-                    }, 1);
-
-                    // snowball wave
-                    const snowball_count = 60;
-                    let snowball_iter = 0;
-                    animate(me, (me, { here, canvas }) => {
-                        summon(
-                            "snowball",
-                            here,
-                            { x: (canvas.width - 50) / snowball_count * snowball_iter + 25, y: 0 },
-                            {},
-                            me => {
-                                face(me, { x: canvas.width / 2, y: -100 })
-                                velocityFacing(me, -0.8);
-                            }
-                        );
-                        snowball_iter++;
-                    }, 0, snowball_count);
-
-                    // goonery
-                    wait(me, me => {
-                        const goon_slots = canvas.width / 8;
-                        const goons = [
-                            summon("goon", here, { x: goon_slots * 3, y: -10 }, { vel: { x: 0, y: 1 }, friction: 0.02 }),
-                            summon("goon", here, { x: goon_slots * 4, y: -10 }, { vel: { x: 0, y: 1 }, friction: 0.02 }),
-                            summon("goon", here, { x: goon_slots * 5, y: -10 }, { vel: { x: 0, y: 1 }, friction: 0.02 })
-                        ];
-
-                        // curtains
-                        let curtains = true;
-                        loop(me, (me, { destroy }) => {
-                            if (!curtains) return destroy();
-
-                            const width = 1 / 32;
-                            const rrot = (Math.PI * 1.5) + (Math.PI * width) * (Math.random() - 0.5);
-
-                            const balls = [
-                                summon("snowball", here, { x: goon_slots * 1, y: -10 }),
-                                summon("snowball", here, { x: goon_slots * 2, y: -10 }),
-
-                                summon("snowball", here, { x: goon_slots * 6, y: -10 }),
-                                summon("snowball", here, { x: goon_slots * 7, y: -10 }),
-
-                                summon("snowball", here, { x: goon_slots * 3.5, y: -10 }),
-                                summon("snowball", here, { x: goon_slots * 4.5, y: -10 })
-                            ];
-                            balls.forEach(b => {
-                                b.rot = rrot;
-                                velocityFacing(b, 1);
-                            });
-                        }, 80);
-
-                        // we do a lil shifting
-                        const shufflin_range = 5;
-                        goons.forEach(g => {
-                            const ori = g.pos.x;
-                            let direction = (Math.random() < 0.5) ? 1 : -1;
-                            loop(g, me => {
-                                me.pos.x += direction;
-                                if (Math.abs(me.pos.x - ori) > shufflin_range) direction *= -1;
-                            }, Math.floor(Math.random() * (14 - 8 + 1)) + 8);
-
-                            // change sprite direction & animate shooting
-                            loop(g, me => {
-                                direction == -1
-                                    ? me.animstate = 0
-                                    : me.animstate = 1;
-                                me.shooting
-                                    ? me.animstate += 2
-                                    : 0;
-                            }, 0)
-                        });
-
-                        // shooting
-                        goons.forEach(g => loop(g, me => {
-                            const rot = faceEntityRaw(me, player);
-                            me.shooting = true;
-                            animate(me, me => {
-                                const bullet = summon("bullet", here, { ...me.pos, y: me.pos.y + 5 }, { rot });
-                                velocityFacing(bullet, 1.6)
-                            }, 20, 4)
-                            wait(me, me => me.shooting = false, 20 * 4);
-                        }, 200));
-
-                        // proceeding
-                        loop(me, (me, { here, destroy }) => {
-                            const numgoons = goons.reduce((acc, g) => acc + here.entities.includes(g), 0);
-
-                            // curtain call
-                            if (numgoons == 1 && curtains === true) {
-                                curtains = 1;
-                                wait(me, me => loop(me, (me, { destroy }) => {
-                                    const snowballs = here.entities.filter(e => e.type == "snowball");
-                                    if (snowballs.length > 0) {
-                                        remove(here, snowballs[0]);
-                                        const call = summon("bullet", here, { ...snowballs[0].pos });
-                                        faceEntity(call, player);
-                                        velocityFacing(call, 2);
-                                    } else {
-                                        destroy();
-                                        curtains = false;
+                            // snowball wave
+                            const snowball_count = 60;
+                            let snowball_iter = 0;
+                            animate(me, (me, { here, canvas }) => {
+                                summon(
+                                    "snowball",
+                                    here,
+                                    { x: (canvas.width - 50) / snowball_count * snowball_iter + 25, y: 0 },
+                                    {},
+                                    me => {
+                                        face(me, { x: canvas.width / 2, y: -100 })
+                                        velocityFacing(me, -0.8);
                                     }
+                                );
+                                snowball_iter++;
+                            }, 0, snowball_count);
 
-                                }, 4), 200)
-                            }
+                            wait(me, me => next(), 500);
+                        },
+                        ({ next }) => {
+                            const goon_slots = canvas.width / 8;
+                            const goons = [
+                                summon("goon", here, { x: goon_slots * 3, y: -10 }, { vel: { x: 0, y: 1 }, friction: 0.02 }),
+                                summon("goon", here, { x: goon_slots * 4, y: -10 }, { vel: { x: 0, y: 1 }, friction: 0.02 }),
+                                summon("goon", here, { x: goon_slots * 5, y: -10 }, { vel: { x: 0, y: 1 }, friction: 0.02 })
+                            ];
 
-                            // boss section
-                            if (numgoons == 0) {
-                                destroy();
+                            // curtains
+                            let curtains = true;
+                            loop(me, (me, { destroy }) => {
+                                if (!curtains) return destroy();
 
-                                wait(me, me => {
-                                    // boss curtains
-                                    loop(me, (me, { canvas, destroy }) => {
-                                        // snowballs
-                                        animate(me, me => {
-                                            const balls = [
-                                                summon("snowball", here, { x: -10, y: -10 }, { rot: (1.60 * Math.PI) }),
-                                                summon("snowball", here, { x: canvas.width + 10, y: -10 }, { rot: (1.40 * Math.PI) }),
+                                const width = 1 / 32;
+                                const rrot = (Math.PI * 1.5) + (Math.PI * width) * (Math.random() - 0.5);
 
-                                                summon("snowball", here, { x: goon_slots * 3, y: -10 }, { rot: (1.5 * Math.PI) }),
-                                                summon("snowball", here, { x: goon_slots * 5, y: -10 }, { rot: (1.5 * Math.PI) })
-                                            ];
-                                            balls.forEach(b => velocityFacing(b, 2))
-                                        }, 10, 2);
-                                    }, 80);
-                                    loop(me, (me, { canvas }) => {
-                                        // icbulletm
-                                        const icbm = [
-                                            summon("bullet", here, { x: 30, y: -10 }, { rot: (1.60 * Math.PI) }),
-                                            summon("bullet", here, { x: canvas.width - 30, y: -10 }, { rot: (1.40 * Math.PI) }),
-                                        ];
-                                        icbm.forEach(bm => {
-                                            velocityFacing(bm, 1);
-                                            wait(bm, me => {
-                                                faceEntity(me, player);
-                                                velocityFacing(me, 0.4);
-                                            }, 400);
-                                        });
-                                    }, 140);
+                                const balls = [
+                                    summon("snowball", here, { x: goon_slots * 1, y: -10 }),
+                                    summon("snowball", here, { x: goon_slots * 2, y: -10 }),
 
-                                    // cercey
+                                    summon("snowball", here, { x: goon_slots * 6, y: -10 }),
+                                    summon("snowball", here, { x: goon_slots * 7, y: -10 }),
+
+                                    summon("snowball", here, { x: goon_slots * 3.5, y: -10 }),
+                                    summon("snowball", here, { x: goon_slots * 4.5, y: -10 })
+                                ];
+                                balls.forEach(b => {
+                                    b.rot = rrot;
+                                    velocityFacing(b, 1);
+                                });
+                            }, 80);
+
+                            // we do a lil shifting
+                            const shufflin_range = 5;
+                            goons.forEach(g => {
+                                const ori = g.pos.x;
+                                let direction = (Math.random() < 0.5) ? 1 : -1;
+                                loop(g, me => {
+                                    me.pos.x += direction;
+                                    if (Math.abs(me.pos.x - ori) > shufflin_range) direction *= -1;
+                                }, Math.floor(Math.random() * (14 - 8 + 1)) + 8);
+
+                                // change sprite direction & animate shooting
+                                loop(g, me => {
+                                    direction == -1
+                                        ? me.animstate = 0
+                                        : me.animstate = 1;
+                                    me.shooting
+                                        ? me.animstate += 2
+                                        : 0;
+                                }, 0)
+                            });
+
+                            // shooting
+                            goons.forEach(g => loop(g, me => {
+                                const rot = faceEntityRaw(me, player);
+                                me.shooting = true;
+                                animate(me, me => {
+                                    const bullet = summon("bullet", here, { ...me.pos, y: me.pos.y + 5 }, { rot });
+                                    velocityFacing(bullet, 1.6)
+                                }, 20, 4)
+                                wait(me, me => me.shooting = false, 20 * 4);
+                            }, 200));
+
+                            // proceeding
+                            loop(me, (me, { here, destroy }) => {
+                                const numgoons = goons.reduce((acc, g) => acc + here.entities.includes(g), 0);
+
+                                // curtain call
+                                if (numgoons == 1 && curtains === true) {
+                                    curtains = 1;
+                                    wait(me, me => loop(me, (me, { destroy }) => {
+                                        const snowballs = here.entities.filter(e => e.type == "snowball");
+                                        if (snowballs.length > 0) {
+                                            remove(here, snowballs[0]);
+                                            const call = summon("bullet", here, { ...snowballs[0].pos });
+                                            faceEntity(call, player);
+                                            velocityFacing(call, 2);
+                                        } else {
+                                            destroy();
+                                            curtains = false;
+                                        }
+
+                                    }, 4), 200)
+                                }
+
+                                // boss section
+                                if (numgoons == 0) {
+                                    destroy();
+
                                     wait(me, me => {
-                                        const cercey = summon("cercy", here, { x: canvas.width / 2, y: -10 }, { vel: { x: 0, y: 1.4 }, friction: 0.02 });
+                                        // boss curtains
+                                        loop(me, (me, { canvas, destroy }) => {
+                                            // snowballs
+                                            animate(me, me => {
+                                                const balls = [
+                                                    summon("snowball", here, { x: -10, y: -10 }, { rot: (1.60 * Math.PI) }),
+                                                    summon("snowball", here, { x: canvas.width + 10, y: -10 }, { rot: (1.40 * Math.PI) }),
 
-                                        // cercey shuffle
-                                        const shufflin_range = 10;
-                                        const ori = cercey.pos.x;
-                                        let direction = (Math.random() < 0.5) ? 1 : -1;
-                                        loop(cercey, me => {
-                                            me.pos.x += direction;
-                                            if (Math.abs(me.pos.x - ori) > shufflin_range) direction *= -1;
-                                        }, Math.floor(Math.random() * (14 - 8 + 1)) + 8);
+                                                    summon("snowball", here, { x: goon_slots * 3, y: -10 }, { rot: (1.5 * Math.PI) }),
+                                                    summon("snowball", here, { x: goon_slots * 5, y: -10 }, { rot: (1.5 * Math.PI) })
+                                                ];
+                                                balls.forEach(b => velocityFacing(b, 2))
+                                            }, 10, 2);
+                                        }, 80);
+                                        loop(me, (me, { canvas }) => {
+                                            // icbulletm
+                                            const icbm = [
+                                                summon("bullet", here, { x: 30, y: -10 }, { rot: (1.60 * Math.PI) }),
+                                                summon("bullet", here, { x: canvas.width - 30, y: -10 }, { rot: (1.40 * Math.PI) }),
+                                            ];
+                                            icbm.forEach(bm => {
+                                                velocityFacing(bm, 1);
+                                                wait(bm, me => {
+                                                    faceEntity(me, player);
+                                                    velocityFacing(me, 0.4);
+                                                }, 400);
+                                            });
+                                        }, 140);
 
-                                        // cercy health
-                                        cercey.health = 5;
-                                        hud.cercey = cercey;
-                                        let prevhealth = 5;
-                                        loop(cercey, (me, { destroy }) => {
-                                            // damage flash
-                                            hud.cerceyDamage > 0 ? hud.cerceyDamage -= 1 : 0;
-                                            if (me.health < prevhealth && me.health !== 0) {
-                                                prevhealth = me.health;
+                                        // cercey
+                                        wait(me, me => {
+                                            const cercey = summon("cercy", here, { x: canvas.width / 2, y: -10 }, { vel: { x: 0, y: 1.4 }, friction: 0.02 });
 
-                                                // retreat
-                                                if (me.vel.y < 0.05) {
-                                                    me.vel.y = -3;
-                                                    wait(me, me => me.vel.y = 3, 200);
+                                            // cercey shuffle
+                                            const shufflin_range = 10;
+                                            const ori = cercey.pos.x;
+                                            let direction = (Math.random() < 0.5) ? 1 : -1;
+                                            loop(cercey, me => {
+                                                me.pos.x += direction;
+                                                if (Math.abs(me.pos.x - ori) > shufflin_range) direction *= -1;
+                                            }, Math.floor(Math.random() * (14 - 8 + 1)) + 8);
+
+                                            // cercy health
+                                            cercey.health = 5;
+                                            hud.cercey = cercey;
+                                            let prevhealth = 5;
+                                            loop(cercey, (me, { destroy }) => {
+                                                // damage flash
+                                                hud.cerceyDamage > 0 ? hud.cerceyDamage -= 1 : 0;
+                                                if (me.health < prevhealth && me.health !== 0) {
+                                                    prevhealth = me.health;
+
+                                                    // retreat
+                                                    if (me.vel.y < 0.05) {
+                                                        me.vel.y = -3;
+                                                        wait(me, me => me.vel.y = 3, 200);
+                                                    }
+
+                                                    // set damage time
+                                                    hud.cerceyDamage = 100;
                                                 }
 
-                                                // set damage time
-                                                hud.cerceyDamage = 100;
-                                            }
+                                                // death
+                                                if (me.health <= 0) {
+                                                    hud.cerceydead = true;
+                                                    destroy();
 
-                                            // death
-                                            if (me.health <= 0) {
-                                                hud.cerceydead = true;
-                                                destroy();
+                                                    loop(me, me => {
+                                                        me.rot += Math.PI / 8;
+                                                    }, 10);
+                                                    wait(me, me => location.href = "./win_screen.html", 500);
+                                                }
+                                            }, 0);
 
-                                                loop(me, me => {
-                                                    me.rot += Math.PI / 8;
-                                                }, 10);
-                                                wait(me, me => location.href = "./win_screen.html", 500);
-                                            }
-                                        }, 0);
+                                            // cercey bullets
+                                            loop(cercey, (me, { destroy }) => {
+                                                if (me.health <= 0) return destroy();
 
-                                        // cercey bullets
-                                        loop(cercey, (me, { destroy }) => {
-                                            if (me.health <= 0) return destroy();
-
-                                            const rot = faceEntityRaw(me, player);
-                                            animate(me, me => {
-                                                const lbullet = summon("bullet", here, { x: me.pos.x - 10, y: me.pos.y + 5 }, { rot });
-                                                const rbullet = summon("bullet", here, { x: me.pos.x + 10, y: me.pos.y + 5 }, { rot });
-                                                velocityFacing(lbullet, 1.6)
-                                                velocityFacing(rbullet, 1.6)
-                                            }, 32, 6);
-                                        }, 400)
+                                                const rot = faceEntityRaw(me, player);
+                                                animate(me, me => {
+                                                    const lbullet = summon("bullet", here, { x: me.pos.x - 10, y: me.pos.y + 5 }, { rot });
+                                                    const rbullet = summon("bullet", here, { x: me.pos.x + 10, y: me.pos.y + 5 }, { rot });
+                                                    velocityFacing(lbullet, 1.6)
+                                                    velocityFacing(rbullet, 1.6)
+                                                }, 32, 6);
+                                            }, 400)
+                                        }, 200);
                                     }, 200);
-                                }, 200);
-                            }
-                        }, 2);
-                    }, 500);
+                                }
+                            }, 2);
+                        }
+                    ]);
                 }),
 
                 // display hud
