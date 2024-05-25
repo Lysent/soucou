@@ -73,11 +73,11 @@ const scenes = [
 
 let currentIndex = 0;
 
-const titleElement = document.querySelector('.title');
-const textElement = document.querySelector('.text');
-const portrait1Element = document.querySelector('.portrait1');
-const portrait2Element = document.querySelector('.portrait2');
-const textboxElement = document.querySelector('.textbox');
+const title = document.querySelector('.title');
+const text = document.querySelector('.text');
+const portrait1 = document.querySelector('.portrait1');
+const portrait2 = document.querySelector('.portrait2');
+const background = document.querySelector('.backimg');
 
 const advance = () => {
     const i = currentIndex;
@@ -88,17 +88,30 @@ const advance = () => {
 
     const scene = scenes[i];
 
-    textElement.textContent = scene.text;
-    titleElement.textContent = scene.title;
+    title.textContent = scene.title;
+    title.style.backgroundImage = `url(${scene.images.textbox})`;
 
-    titleElement.style.backgroundImage = `url(${scene.images.textbox})`;
+    text.textContent = scene.text;
 
-    portrait1Element.src = scene.images.portrait1;
-    portrait1Element.alt = scene.images.portrait1 ? `Portrait 1 for scene ${currentIndex}` : "";
-    portrait2Element.src = scene.images.portrait2;
-    portrait2Element.alt = scene.images.portrait2 ? `Portrait 2 for scene ${currentIndex}` : "";
+    portrait1.src = scene.images.portrait1;
+    portrait1.alt = scene.images.portrait1 ? `Portrait 1 for scene ${currentIndex}` : "";
+    portrait2.src = scene.images.portrait2;
+    portrait2.alt = scene.images.portrait2 ? `Portrait 2 for scene ${currentIndex}` : "";
+
+    background.src = scene.images.background;
 }
 
 document.addEventListener('click', () => advance());
 
 advance();
+
+// avatar size because css sometimes just doesn't like me
+const avatars = document.querySelector(".avatars");
+const propersize = () => {
+    const rect = avatars.getBoundingClientRect();
+
+    portrait1.style.height = portrait2.style.height = rect.height / 100 * 80 + "px";
+};
+
+setInterval(propersize, 100);
+propersize();

@@ -10,24 +10,28 @@ body {
 	padding: 0;
 	height: 100dvh;
 	width: 100dvw;
+
+	background: #212121;
 }
 
 .center {
 	display: flex;
-    flex-flow: column nowrap;
+	flex-flow: column nowrap;
+	align-items: center;
+	justify-content: center;
 	width: 100%;
 	height: 100%;
 }
 
 .container {
 	display: grid;
-	grid-template: "container" 1fr / 1fr;
+	grid-template: "container" 100% / 100%;
 	place-items: center;
 	place-content: center;
 
 	border: 2px solid black;
 
-	height: 100%;
+	width: 100dvmin;
 	aspect-ratio: 4/3;
 }
 
@@ -42,15 +46,23 @@ body {
 }
 
 .avatars {
-	grid-template-rows: var(--border) 1fr var(--border);
+	grid-template-rows: 18% 80% 2%;
 
-	--border: 1%;
-	--avatar-width: 1fr;
-	grid-template-columns: var(--border) var(--avatar-width) 1fr var(--avatar-width) var(--border);
+	--border: minmax(0, 1fr);
+	--avatar-width: minmax(auto, 40%);
+	grid-template-columns: var(--border) var(--avatar-width) minmax(0, 1fr) var(--avatar-width) var(--border);
 }
 
 .portrait1,
 .portrait2 {
+	height: 0;
+	max-height: 100%;
+	max-width: 100%;
+    object-fit: contain;
+	align-self: flex-end;
+}
+
+.backimg {
 	width: 100%;
 	align-self: flex-end;
 }
@@ -64,8 +76,8 @@ body {
 }
 
 .ui {
-	grid-template-rows: 80% 2ch 10ch 1fr;
-	grid-template-columns: 1fr 128ch 1fr;
+	grid-template-rows: 80% 4ch 10ch 1fr;
+	grid-template-columns: 1fr 80% 1fr;
 }
 
 .textbox {
@@ -83,6 +95,9 @@ body {
 .title {
 	grid-area: 2/2;
 	font-weight: bold;
+	font-size: 4ch;
+
+	overflow:visible;
 
 	background-image: url(../assets/VN/top_box.png);
 	background-position: center center;
@@ -97,5 +112,5 @@ body {
 	height: 100%;
 	margin: 0;
 	padding: 0.5ch;
-	font-size: 0.8rem;
+	font-size: 0.5cm;
 }
