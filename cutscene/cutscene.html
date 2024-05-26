@@ -7,7 +7,14 @@
 	<title>Cut Scene</title>
 
 	<link rel="stylesheet" href="./cutscene.css">
-	<script src="./cutscene.js" defer></script>
+	<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const scriptToLoad = localStorage.getItem('languageScript') || 'cutscene.js';
+            const script = document.createElement('script');
+            script.src = scriptToLoad;
+            document.body.appendChild(script);
+        });
+    </script>
 </head>
 
 <body>

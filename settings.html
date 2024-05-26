@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <label>
+        <input type="checkbox" id="languageToggle"> French instead of English
+    </label>
+
+    <script>
+        document.getElementById('languageToggle').addEventListener('change', function() {
+            if (this.checked) {
+                localStorage.setItem('languageScript', 'cutscene_fr.js');
+            } else {
+                localStorage.setItem('languageScript', 'cutscene.js');
+            }
+        });
+
+        // Set the toggle state based on the stored value
+        document.addEventListener('DOMContentLoaded', function() {
+            const scriptToLoad = localStorage.getItem('languageScript') || 'cutscene.js';
+            document.getElementById('languageToggle').checked = scriptToLoad === 'cutscene_fr.js';
+        });
+    </script>
+</body>
+</html>
