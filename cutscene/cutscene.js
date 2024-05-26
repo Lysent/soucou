@@ -10,6 +10,16 @@ const scenes = [
         }
     },
     {
+        title: "Lisotem",
+        text: "Now that's settled, I should try to get out of here.",
+        images: {
+            textbox: "/assets/VN/top_box_lisotem.png",
+            portrait1: "/assets/VN/portrait_lisotem.png",
+            portrait2: "",
+            background: ""
+        }
+    },
+    {
         title: "",
         text: "The gentleman continued onwards, towards the impressive yet antiquated walls surrounding the city.",
         images: {
