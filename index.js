@@ -1,119 +1,17 @@
-import { procedure, sprite } from "./src/assetloader.js";
-import { Game } from "./src/game.js";
-import { animate, entity, entityDistanceSort, entity_process, face, faceEntity, faceEntityRaw, loop, pointDistance, remove, summon, velocityFacing, wait, sequence } from "./src/generators.js";
+import { procedure, sprite } from "./lib/assetloader.js";
+import { Game } from "./lib/game.js";
+import { animate, entity_process, face, faceEntity, faceEntityRaw, loop, remove, summon, velocityFacing, wait, sequence } from "./lib/generators.js";
+
+import { player, player_type_depend } from "./src/player.js";
+import { hud, hud_type_depend } from "./src/hud.js";
+
+const 
+    player_i = player(),
+    hud_i = hud(player_i);
+player_i.hud = hud_i;
+
 
 const gamecanvas = document.querySelector("#game");
-
-const player = entity("player", { friction: Infinity, health: 50, maxHealth: 50, ccooldown: 0 }, (me, { canvas }) => {
-    me.pos = { x: canvas.width / 2, y: canvas.height - 20 };
-
-    // controls
-    loop(me, (me, { keys, here }) => {
-        // movement
-        const speed = 1;
-        if (keys.ArrowDown || keys.s) me.vel.y += speed;
-        if (keys.ArrowUp || keys.w) me.vel.y -= speed;
-        if (keys.ArrowRight || keys.d) {
-            me.vel.x += speed;
-        }
-        if (keys.ArrowLeft || keys.a) me.vel.x -= speed;
-
-        // change sprite direction
-        me.vel.x > 0
-            ? me.animstate = 2
-            : me.vel.x < 0
-                ? me.animstate = 1
-                : me.animstate = 0;
-
-        // corruption
-        if (me.ccooldown > 0) me.ccooldown--;
-        if ((keys.c || keys.x) && me.ccooldown == 0) {
-            (() => {
-                const corruptibles = entityDistanceSort(here.entities, me)
-                    .filter(e => e !== me)
-                    .filter(e => pointDistance(e.pos, me.pos) < 40)
-                    .slice(0, 3);
-                corruptibles.forEach(e => {
-                    if ("health" in e) return e.health -= 1;
-                    remove(here, e);
-                    summon("corrupt", here, { ...e.pos }, {}, me => wait(me, (me, { here }) => remove(here, me), 40));
-                });
-            })();
-            me.ccooldown = 100;
-        }
-    }, 0);
-
-    // damage on contact
-    loop(me, (me, { collisions }) => {
-        const damaging = collisions.filter(c => !["corrupt", "player"].includes(c.type));
-        if (damaging.length > 0) {
-            hud.takingDamage = true;
-            me.health > 0 ? me.health-- : 0
-            //damaging.forEach(() => me.health > 0 ? me.health-- : 0);
-        } else {
-            hud.takingDamage = false;
-        }
-        if (me.health == 0 && !hud.dead) {
-            hud.dead = true;
-            wait(me, () => location.href = "./you_died_lol.html", 100);
-        };
-    }, 0)
-
-    // regeneration
-    loop(me, me => me.health < me.maxHealth ? me.health++ : 0, 140);
-})
-
-const hud = entity("hud", {
-    takingDamage: false,
-    healthColor: "red",
-    health: 1,
-    corrupt: 1,
-    dead: false,
-
-    // cercey
-    cerceyhealth: 5,
-    cerceyDamage: false,
-    cerceyhealthColor: "red",
-    cerceydead: false
-}, me => {
-    // player
-
-    // sync
-    loop(me, me => {
-        me.health = player.health / player.maxHealth;
-        me.corrupt = 1 - player.ccooldown / 100;
-    }, 0);
-
-    // flash
-    loop(me, me => {
-        // health
-        me.takingDamage ? me.healthColor = me.healthColor == "red" ? "white" : "red" : me.healthColor = "red";
-
-        // death
-        me.dead ? me.fg = me.fg == false ? true : false : me.fg = false;
-    }, 10);
-
-    // cercy
-    loop(me, (me, { destroy }) => {
-        if (me.cercey) {
-            destroy();
-
-            // sync
-            loop(me, me => {
-                me.cerceyhealth = me.cercey.health / 5;
-            }, 0);
-
-            // flash
-            loop(me, me => {
-                // health
-                me.cerceyDamage ? me.cerceyhealthColor = me.cerceyhealthColor == "red" ? "white" : "red" : me.cerceyhealthColor = "red";
-
-                // death
-                me.cerceydead ? me.fg = me.fg == false ? true : false : me.fg = false;
-            }, 10);
-        }
-    }, 100);
-})
 
 const state = {
     showHitboxes: 0,
@@ -322,7 +220,7 @@ const state = {
 
                             // shooting
                             goons.forEach(g => loop(g, me => {
-                                const rot = faceEntityRaw(me, player);
+                                const rot = faceEntityRaw(me, player_i);
                                 me.shooting = true;
                                 animate(me, me => {
                                     const bullet = summon("bullet", here, { ...me.pos, y: me.pos.y + 5 }, { rot });
@@ -343,7 +241,7 @@ const state = {
                                         if (snowballs.length > 0) {
                                             remove(here, snowballs[0]);
                                             const call = summon("bullet", here, { ...snowballs[0].pos });
-                                            faceEntity(call, player);
+                                            faceEntity(call, player_i);
                                             velocityFacing(call, 2);
                                         } else {
                                             destroy();
@@ -381,7 +279,7 @@ const state = {
                                             icbm.forEach(bm => {
                                                 velocityFacing(bm, 1);
                                                 wait(bm, me => {
-                                                    faceEntity(me, player);
+                                                    faceEntity(me, player_i);
                                                     velocityFacing(me, 0.4);
                                                 }, 400);
                                             });
@@ -436,7 +334,7 @@ const state = {
                                             loop(cercey, (me, { destroy }) => {
                                                 if (me.health <= 0) return destroy();
 
-                                                const rot = faceEntityRaw(me, player);
+                                                const rot = faceEntityRaw(me, player_i);
                                                 animate(me, me => {
                                                     const lbullet = summon("bullet", here, { x: me.pos.x - 10, y: me.pos.y + 5 }, { rot });
                                                     const rbullet = summon("bullet", here, { x: me.pos.x + 10, y: me.pos.y + 5 }, { rot });
@@ -453,17 +351,17 @@ const state = {
                 }),
 
                 // display hud
-                hud,
+                hud_i,
 
                 // player
-                player
+                player_i
             ]
         },
         spawn: {
             entities: [
                 entity_process(me => {
                     loop(me, (me, { keys }) => {
-                        if (keys.Enter) game.joindim("main")
+                        if (keys.Enter) game.joindim("main");
                     }, 0)
                 })
             ]
@@ -474,18 +372,8 @@ const state = {
     y: gamecanvas.height,
 
     assets: {
-        player: {
-            bounds: { type: "hard" },
-            collision: {
-                origin: true,
-                box: { w: 4, h: 32 }
-            },
-            images: [
-                await sprite("./assets/lisotem.png"),
-                await sprite("./assets/lisotem_left.png"),
-                await sprite("./assets/lisotem_right.png")
-            ]
-        },
+        ...player_type_depend,
+        ...hud_type_depend,
         bullet: {
             bounds: { type: "soft-void", tolerance: 100 },
             collision: { box: { w: 6, h: 16 } },
@@ -498,7 +386,7 @@ const state = {
             collision: { box: { w: 6, h: 6 } },
             images: [
                 procedure(ctx => {
-                    ctx.beginPath()
+                    ctx.beginPath();
                     const size = 4;
                     ctx.arc(0, 0, size, 0, 2 * Math.PI);
                     ctx.fillStyle = "white";
@@ -511,7 +399,7 @@ const state = {
             collision: { box: { w: 6, h: 6 } },
             images: [
                 procedure(ctx => {
-                    ctx.beginPath()
+                    ctx.beginPath();
                     const size = 4;
                     ctx.ellipse(0, 0, size * 1.5, size, 0, 0, 2 * Math.PI);
                     ctx.fillStyle = "mediumpurple";
@@ -541,56 +429,11 @@ const state = {
             collision: { box: { w: 14, h: 14 } },
             images: [
                 procedure(ctx => {
-                    ctx.beginPath()
+                    ctx.beginPath();
                     const size = 10;
                     ctx.arc(0, 0, size, 0, 2 * Math.PI);
                     ctx.fillStyle = "yellow";
                     ctx.fill();
-                })
-            ]
-        },
-        corrupt: {
-            bounds: { type: "void" },
-            collision: { box: { w: 6, h: 6 } },
-            images: [
-                procedure(ctx => {
-                    ctx.beginPath()
-                    const size = 4;
-                    ctx.arc(0, 0, size, 0, 2 * Math.PI);
-                    ctx.fillStyle = "grey";
-                    ctx.fill();
-                })
-            ]
-        },
-        hud: {
-            images: [
-                procedure((ctx, canvas, me) => {
-                    const { width, height } = canvas;
-
-                    // health bar
-                    const health_height = 8;
-                    ctx.fillStyle = me.healthColor;
-                    ctx.fillRect(0, height, width * me.health, -health_height)
-
-                    // corrupt bar
-                    const corrupt_height = 5;
-                    ctx.fillStyle = me.corrupt < 1 ? "blue" : "grey";
-                    ctx.fillRect(0, height - health_height, width / 5 * me.corrupt, -corrupt_height)
-                    ctx.fillStyle = "white";
-                    ctx.fillRect(width / 5, height - health_height, 2, -corrupt_height)
-
-                    // deathscreen
-                    if (me.fg) {
-                        ctx.fillStyle = "white";
-                        ctx.fillRect(0, 0, width, height);
-                    }
-
-                    // cercey
-                    if ("cercey" in me) {
-                        // health bar
-                        ctx.fillStyle = me.cerceyhealthColor;
-                        ctx.fillRect(0, 0, width * me.cerceyhealth, health_height)
-                    }
                 })
             ]
         }
