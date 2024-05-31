@@ -394,3 +394,21 @@ setInterval(() => {
     Effort: ${effort.toFixed(2)}%
     Deviation: ${deviation.toFixed(2)}%`
 }, 1000);
+
+// adjust canvas size
+const holder = document.querySelector(".holder");
+const aspect = 4 / 3;
+const adjustsize = () => {
+    const ww = document.documentElement.clientWidth;
+    const wh = document.documentElement.clientHeight;
+
+    if (ww * 1 / aspect < wh) {
+        holder.style.width = `${ww}px`;
+        holder.style.height = `${ww * 1 / aspect}px`;
+    } else {
+        holder.style.width = `${wh * aspect}px`;
+        holder.style.height = `${wh}px`;
+    }
+};
+setInterval(() => adjustsize(), 100);
+adjustsize();
