@@ -2,14 +2,13 @@ import { procedure, sprite } from "./lib/assetloader.js";
 import { Game } from "./lib/game.js";
 import { animate, entity_process, face, faceEntity, faceEntityRaw, loop, remove, summon, velocityFacing, wait, sequence } from "./lib/generators.js";
 
-import { player, player_type_depend } from "./src/player.js";
-import { hud, hud_type_depend } from "./src/hud.js";
+import * as types from "./src/types/types.js";
+window.types = types;
 
 const
-    player_i = player(),
-    hud_i = hud(player_i);
-player_i.hud = hud_i;
-
+    player = types.makePlayer(),
+    hud = types.makeHud(player);
+player.hud = hud;
 
 const gamecanvas = document.querySelector("#game");
 
@@ -154,7 +153,7 @@ const state = {
 
                             // shooting
                             goons.forEach(g => loop(g, me => {
-                                const rot = faceEntityRaw(me, player_i);
+                                const rot = faceEntityRaw(me, player);
                                 me.shooting = true;
                                 animate(me, me => {
                                     const bullet = summon("bullet", here, { ...me.pos, y: me.pos.y + 5 }, { rot });
@@ -175,7 +174,7 @@ const state = {
                                         if (snowballs.length > 0) {
                                             remove(here, snowballs[0]);
                                             const call = summon("bullet", here, { ...snowballs[0].pos });
-                                            faceEntity(call, player_i);
+                                            faceEntity(call, player);
                                             velocityFacing(call, 2);
                                         } else {
                                             destroy();
@@ -218,7 +217,7 @@ const state = {
                                 icbm.forEach(bm => {
                                     velocityFacing(bm, 1);
                                     wait(bm, me => {
-                                        faceEntity(me, player_i);
+                                        faceEntity(me, player);
                                         velocityFacing(me, 0.4);
                                     }, 400);
                                 });
@@ -239,11 +238,11 @@ const state = {
 
                                 // cercy health
                                 cercey.health = 5;
-                                hud_i.cercey = cercey;
+                                hud.cercey = cercey;
                                 let prevhealth = 5;
                                 loop(cercey, (me, { destroy }) => {
                                     // damage flash
-                                    hud_i.cerceyDamage > 0 ? hud_i.cerceyDamage -= 1 : 0;
+                                    hud.cerceyDamage > 0 ? hud.cerceyDamage -= 1 : 0;
                                     if (me.health < prevhealth && me.health !== 0) {
                                         prevhealth = me.health;
 
@@ -254,13 +253,13 @@ const state = {
                                         }
 
                                         // set damage time
-                                        hud_i.cerceyDamage = 100;
+                                        hud.cerceyDamage = 100;
                                     }
 
                                     // death
                                     if (me.health <= 0) {
-                                        hud_i.cerceydead = true;
-                                        player_i.health = 9999;
+                                        hud.cerceydead = true;
+                                        player.health = 9999;
                                         destroy();
 
                                         loop(me, me => {
@@ -274,7 +273,7 @@ const state = {
                                 loop(cercey, (me, { destroy }) => {
                                     if (me.health <= 0) return destroy();
 
-                                    const rot = faceEntityRaw(me, player_i);
+                                    const rot = faceEntityRaw(me, player);
                                     animate(me, me => {
                                         const lbullet = summon("bullet", here, { x: me.pos.x - 10, y: me.pos.y + 5 }, { rot });
                                         const rbullet = summon("bullet", here, { x: me.pos.x + 10, y: me.pos.y + 5 }, { rot });
@@ -288,10 +287,10 @@ const state = {
                 }),
 
                 // display hud
-                hud_i,
+                hud,
 
                 // player
-                player_i
+                player
             ]
         },
         spawn: {
@@ -309,8 +308,6 @@ const state = {
     y: gamecanvas.height,
 
     assets: {
-        ...player_type_depend,
-        ...hud_type_depend,
         bullet: {
             bounds: { type: "soft-void", tolerance: 100 },
             collision: { box: { w: 6, h: 16 } },

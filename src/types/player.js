@@ -1,9 +1,42 @@
-import { entity, entityDistanceSort, loop, pointDistance, remove, summon, wait } from "../lib/generators.js";
-import { sprite, procedure } from "../lib/assetloader.js";
+import { entity, entityDistanceSort, loop, pointDistance, remove, summon, wait } from "../../lib/generators.js";
+import { sprite, procedure } from "../../lib/assetloader.js";
 
+const player_type = {
+    bounds: { type: "hard" },
+    collision: {
+        origin: true,
+        box: { w: 4, h: 32 }
+    },
+    images: [
+        await sprite("../assets/lisotem.png"),
+        await sprite("../assets/lisotem_left.png"),
+        await sprite("../assets/lisotem_right.png")
+    ]
+}
 
-const player = () => entity("player", { friction: Infinity, health: 50, maxHealth: 50, ccooldown: 0 }, (me, { canvas }) => {
+const corrupt_type = {
+    bounds: { type: "void" },
+    collision: { box: { w: 6, h: 6 } },
+    images: [
+        procedure(ctx => {
+            ctx.beginPath()
+            const size = 4;
+            ctx.arc(0, 0, size, 0, 2 * Math.PI);
+            ctx.fillStyle = "grey";
+            ctx.fill();
+        })
+    ]
+}
+
+const type_depend = {
+    player: player_type,
+    corrupt: corrupt_type
+}
+
+const makePlayer = () => entity("player", { friction: Infinity, health: 50, maxHealth: 50, ccooldown: 0 }, (me, { canvas, addassets }) => {
     me.pos = { x: canvas.width / 2, y: canvas.height - 20 };
+
+    addassets(type_depend);
 
     // controls
     loop(me, (me, { keys, here }) => {
@@ -62,36 +95,4 @@ const player = () => entity("player", { friction: Infinity, health: 50, maxHealt
     loop(me, me => me.health < me.maxHealth ? me.health++ : 0, 140);
 });
 
-const player_type = {
-    bounds: { type: "hard" },
-    collision: {
-        origin: true,
-        box: { w: 4, h: 32 }
-    },
-    images: [
-        await sprite("../assets/lisotem.png"),
-        await sprite("../assets/lisotem_left.png"),
-        await sprite("../assets/lisotem_right.png")
-    ]
-}
-
-const corrupt_type = {
-    bounds: { type: "void" },
-    collision: { box: { w: 6, h: 6 } },
-    images: [
-        procedure(ctx => {
-            ctx.beginPath()
-            const size = 4;
-            ctx.arc(0, 0, size, 0, 2 * Math.PI);
-            ctx.fillStyle = "grey";
-            ctx.fill();
-        })
-    ]
-}
-
-const player_type_depend = {
-    player: player_type,
-    corrupt: corrupt_type
-}
-
-export { player, player_type_depend };
+export { makePlayer };
