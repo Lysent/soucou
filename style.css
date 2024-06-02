@@ -73,4 +73,6 @@ body {
 
     background-color: black;
     border: 2px solid grey;
+
+    cursor: pointer;
 }
