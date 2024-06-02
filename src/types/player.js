@@ -1,4 +1,4 @@
-import { entity, entityDistanceSort, loop, pointDistance, remove, summon, wait } from "../../lib/generators.js";
+import { entity, entityDistanceSort, faceEntity, loop, pointDistance, remove, summon, velocityFacing, velocityFacingAdd, wait } from "../../lib/generators.js";
 import { sprite, procedure } from "../../lib/assetloader.js";
 
 const player_type = {
@@ -28,12 +28,77 @@ const corrupt_type = {
     ]
 }
 
-const type_depend = {
-    player: player_type,
-    corrupt: corrupt_type
+const corrupt_bullet_type = {
+    bounds: { type: "void" },
+    collision: { box: { w: 6, h: 6 } },
+    images: [
+        procedure(ctx => {
+            ctx.beginPath();
+            const size = 4;
+            ctx.ellipse(0, 0, size * 1.5, size, 0, 0, 2 * Math.PI);
+            ctx.fillStyle = "grey";
+            ctx.fill();
+        })
+    ]
 }
 
-const makePlayer = () => entity("player", { friction: Infinity, health: 50, maxHealth: 50, ccooldown: 0 }, (me, { canvas, addassets }) => {
+
+const type_depend = {
+    player: player_type,
+    corrupt: corrupt_type,
+    corrupt_bullet: corrupt_bullet_type
+}
+
+const _corrupt = (here, me, distance, limit, action) => {
+    const corruptibles = entityDistanceSort(here.entities, me)
+        .filter(e => e !== me && !["player", "corrupt", "corrupt_bullet"].includes(e.type))
+        .filter(e => pointDistance(e.pos, me.pos) < distance)
+        .slice(0, limit);
+    corruptibles.forEach(e => {
+        if (typeof e.health === 'number') return e.health -= 1;
+        remove(here, e);
+        action(e);
+    });
+}
+
+const corrupt = (here, me, distance, limit) => _corrupt(here, me, distance, limit, target => summon("corrupt", here, { ...target.pos }, {}, me => wait(me, (me, { here }) => remove(here, me), 40)));
+
+const _corrupting_bullet = (here, position, speed) => summon("corrupt_bullet", here, { ...position }, {}, (me) => {
+    // corrupting aura
+    loop(me, () => {
+        corrupt(here, me, 40, 2)
+    }, 10);
+
+    // random direction
+    me.rot = Math.floor(Math.random() * (2 * Math.PI + 1));
+    velocityFacing(me, speed);
+});
+
+const corruption_plague = (here, me, distance, limit, speed) => _corrupt(here, me, distance, limit, target => _corrupting_bullet(here, { ...target.pos }, speed))
+
+const _corrupt_shield_bullet = (here, position, player, life) => summon("corrupt_bullet", here, { ...position }, {}, (me) => {
+    // corrupting aura
+    loop(me, () => {
+        corrupt(here, me, 40, 2)
+    }, 10);
+
+    // tangent direction, orbit
+    const gravity = 0.5;
+    const tanvel = () => {
+        faceEntity(me, player);
+        velocityFacingAdd(me, gravity);
+
+
+        me.rot += Math.PI / 2;
+        //life--;
+        velocityFacingAdd(me, gravity * 0.1);
+    };
+    loop(me, () => tanvel(), 10);
+});
+
+const hanged_man = (here, me, distance, limit, life) => _corrupt(here, me, distance, limit, target => _corrupt_shield_bullet(here, { ...target.pos }, me, life));
+
+const makePlayer = () => entity("player", { friction: Infinity, health: 50, maxHealth: 50, ccooldown: 0, corrpower: 0 }, (me, { canvas, addassets }) => {
     me.pos = { x: canvas.width / 2, y: canvas.height - 20 };
 
     addassets(type_depend);
@@ -59,24 +124,31 @@ const makePlayer = () => entity("player", { friction: Infinity, health: 50, maxH
         // corruption
         if (me.ccooldown > 0) me.ccooldown--;
         if ((keys.c || keys.x) && me.ccooldown == 0) {
-            (() => {
-                const corruptibles = entityDistanceSort(here.entities, me)
-                    .filter(e => e !== me)
-                    .filter(e => pointDistance(e.pos, me.pos) < 40)
-                    .slice(0, 3);
-                corruptibles.forEach(e => {
-                    if ("health" in e) return e.health -= 1;
-                    remove(here, e);
-                    summon("corrupt", here, { ...e.pos }, {}, me => wait(me, (me, { here }) => remove(here, me), 40));
-                });
-            })();
+            me.corrpower++;
+        } else if (me.corrpower > 0) {
+            const x = me.corrpower;
+            me.corrpower = 0;
+            switch (true) {
+                case (x < 200):
+                    corrupt(here, me, 40, 3);
+                    break;
+                case (x < 400):
+                    corruption_plague(here, me, 80, 10, 2);
+                    break;
+                case (x < 500):
+                    hanged_man(here, me, 100, 10, 500);
+                    break;
+                default:
+                    corrupt(here, me, 40, 3);
+                    break;
+            }
             me.ccooldown = 100;
         }
     }, 0);
 
     // damage on contact
     loop(me, (me, { collisions }) => {
-        const damaging = collisions.filter(c => !["corrupt", "player"].includes(c.type));
+        const damaging = collisions.filter(c => !["corrupt", "corrupt_bullet", "player"].includes(c.type));
         const hud = me.hud;
         if (damaging.length > 0) {
             hud.takingDamage = true;

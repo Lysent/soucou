@@ -9,14 +9,22 @@ const hud_type = {
             // health bar
             const health_height = 8;
             ctx.fillStyle = me.healthColor;
-            ctx.fillRect(0, height, width * me.health, -health_height)
+            ctx.fillRect(0, height, width * me.health, -health_height);
 
-            // corrupt bar
+            // corrupt power bar
+            const corrpower_height = 6;
+            ctx.fillStyle = "grey";
+            ctx.fillRect(0, height - health_height, width * me.power, -corrpower_height);
+            ctx.fillStyle = "white";
+            ctx.fillRect(width / 500 * 200, height - health_height, 2, -corrpower_height);
+            ctx.fillRect(width / 500 * 400, height - health_height, 2, -corrpower_height);
+
+            // corrupt cooldown bar
             const corrupt_height = 5;
             ctx.fillStyle = me.corrupt < 1 ? "blue" : "grey";
-            ctx.fillRect(0, height - health_height, width / 5 * me.corrupt, -corrupt_height)
+            ctx.fillRect(0, height - health_height - corrpower_height, width / 5 * me.corrupt, -corrupt_height);
             ctx.fillStyle = "white";
-            ctx.fillRect(width / 5, height - health_height, 2, -corrupt_height)
+            ctx.fillRect(width / 5, height - health_height - corrpower_height, 2, -corrupt_height);
 
             // deathscreen
             if (me.fg) {
@@ -28,7 +36,7 @@ const hud_type = {
             if ("cercey" in me) {
                 // health bar
                 ctx.fillStyle = me.cerceyhealthColor;
-                ctx.fillRect(0, 0, width * me.cerceyhealth, health_height)
+                ctx.fillRect(0, 0, width * me.cerceyhealth, health_height);
             }
         })
     ]
@@ -59,6 +67,7 @@ const makeHud = player => entity("hud", {
     loop(me, me => {
         me.health = player.health / player.maxHealth;
         me.corrupt = 1 - player.ccooldown / 100;
+        me.power = player.corrpower / 500;
     }, 0);
 
     // flash
