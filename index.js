@@ -339,17 +339,17 @@ const state = {
             bounds: { type: "soft-void", tolerance: 100 },
             collision: { box: { w: 16, h: 24 } },
             images: [
-                await sprite("./assets/goon_left.png"),
-                await sprite("./assets/goon_right.png"),
-                await sprite("./assets/goon_left_shoot.png"),
-                await sprite("./assets/goon_right_shoot.png")
+                await sprite("./assets/Outlined/goon_left.png"),
+                await sprite("./assets/Outlined/goon_right.png"),
+                await sprite("./assets/Outlined/goon_left_shoot.png"),
+                await sprite("./assets/Outlined/goon_right_shoot.png")
             ]
         },
         cercy: {
             bounds: { type: "soft-void", tolerance: 1000 },
             collision: { box: { w: 16, h: 24 } },
             images: [
-                await sprite("./assets/cercey.png"),
+                await sprite("./assets/Outlined/cercey.png"),
             ]
         },
         cheeto_segment: {

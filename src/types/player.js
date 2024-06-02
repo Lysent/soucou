@@ -8,9 +8,9 @@ const player_type = {
         box: { w: 4, h: 32 }
     },
     images: [
-        await sprite("../assets/lisotem.png"),
-        await sprite("../assets/lisotem_left.png"),
-        await sprite("../assets/lisotem_right.png")
+        await sprite("../assets/Outlined/lisotem.png"),
+        await sprite("../assets/Outlined/lisotem_left.png"),
+        await sprite("../assets/Outlined/lisotem_right.png")
     ]
 }
 
