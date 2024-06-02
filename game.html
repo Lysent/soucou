@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,24 +9,34 @@
     <link rel="stylesheet" href="./style.css">
     <script src="./index.js" type="module"></script>
 </head>
+
 <body>
     <span id="performance" style="position: absolute;left:0;top:0">sso</span>
     <div class="holder">
-        <canvas id="game" width="640", height="480"></canvas>
+        <canvas id="game" width="640" , height="480"></canvas>
         <div id="pausemenu" class="overlaymenu">
-            <div>
-                <span>some</span>
+            <div id="resume">
+                <span>Resume</span>
             </div>
             <div>
                 <span>buttons</span>
             </div>
-            <div>
-                <span>settings</span>
-            </div>
-            <div>
-                <span>etc</span>
+            <div id="title_screen">
+                <span>Return to Title Screen</span>
             </div>
         </div>
     </div>
+
+    <script>
+        title_screen.addEventListener('click', () => {
+            window.location.href = './title_screen.html';
+        });
+
+        resume.addEventListener('click', () => {
+            pausemenu.style.visibility = 'hidden';
+            game.ticker.pause(false)
+        });
+    </script>
 </body>
+
 </html>

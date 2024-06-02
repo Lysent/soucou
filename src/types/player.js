@@ -7,11 +7,19 @@ const player_type = {
         origin: true,
         box: { w: 4, h: 32 }
     },
+
     images: [
-        await sprite("../assets/lisotem.png"),
-        await sprite("../assets/lisotem_left.png"),
-        await sprite("../assets/lisotem_right.png")
+        await sprite("../assets/Outlineless/lisotem.png"),
+        await sprite("../assets/Outlineless/lisotem_left.png"),
+        await sprite("../assets/Outlineless/lisotem_right.png")
+    ],
+
+    images: [
+        await sprite("../assets/Outlined/lisotem.png"),
+        await sprite("../assets/Outlined/lisotem_left.png"),
+        await sprite("../assets/Outlined/lisotem_right.png")
     ]
+    
 }
 
 const corrupt_type = {
