@@ -18,8 +18,8 @@
             <div id="resume">
                 <span>Resume</span>
             </div>
-            <div>
-                <span>buttons</span>
+            <div id="settings">
+                <span>Settings</span>
             </div>
             <div id="title_screen">
                 <span>Return to Title Screen</span>
@@ -30,6 +30,10 @@
     <script>
         title_screen.addEventListener('click', () => {
             window.location.href = './title_screen.html';
+        });
+
+        settings.addEventListener('click', () => {
+            window.location.href = './settings.html';
         });
 
         resume.addEventListener('click', () => {

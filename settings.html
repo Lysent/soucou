@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Settings</title>
 </head>
+
 <body>
     <label>
         <input type="checkbox" id="languageToggle"> French instead of English
@@ -17,7 +19,7 @@
     </label>
 
     <script>
-        document.getElementById('languageToggle').addEventListener('change', function() {
+        document.getElementById('languageToggle').addEventListener('change', function () {
             if (this.checked) {
                 localStorage.setItem('languageScript', 'fr');
             } else {
@@ -25,12 +27,26 @@
             }
         });
 
-        // Set the toggle state based on the stored value
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const scriptToLoad = localStorage.getItem('languageScript') || 'en';
             document.getElementById('languageToggle').checked = scriptToLoad === 'fr';
         });
 
+        const toggleCheck = document.getElementById('hitboxToggle');
+
+        if (localStorage.getItem('HitValue') === '1') {
+            toggleCheck.checked = true;
+        }
+
+        toggleCheck.addEventListener('change', () => {
+            if (toggleCheck.checked) {
+                localStorage.setItem('HitValue', '1');
+            } else {
+                localStorage.setItem('HitValue', '0');
+            }
+        });
+
     </script>
 </body>
+
 </html>

@@ -14,7 +14,7 @@ const gamecanvas = document.querySelector("#game");
 const pausemenu = document.querySelector("#pausemenu");
 
 const state = {
-    showHitboxes: 0,
+    showHitboxes: localStorage.getItem('HitValue'),
 
     dims: {
         main: {
