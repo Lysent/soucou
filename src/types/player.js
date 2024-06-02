@@ -19,7 +19,7 @@ const player_type = {
         await sprite("../assets/Outlined/lisotem_left.png"),
         await sprite("../assets/Outlined/lisotem_right.png")
     ]
-    
+
 }
 
 const corrupt_type = {
@@ -92,14 +92,18 @@ const _corrupt_shield_bullet = (here, position, player, life) => summon("corrupt
 
     // tangent direction, orbit
     const gravity = 0.5;
+    let distance = 10;
     const tanvel = () => {
+        const magnitude = gravity / pointDistance(me.pos, player.pos);
+
         faceEntity(me, player);
-        velocityFacingAdd(me, gravity);
+        velocityFacing(me, gravity);
 
 
         me.rot += Math.PI / 2;
-        //life--;
-        velocityFacingAdd(me, gravity * 0.1);
+        distance += 0.1;
+        life--;
+        velocityFacingAdd(me, Math.sqrt(gravity * Math.abs(distance + gravity * life)));
     };
     loop(me, () => tanvel(), 10);
 });
@@ -144,7 +148,7 @@ const makePlayer = () => entity("player", { friction: Infinity, health: 50, maxH
                     corruption_plague(here, me, 80, 10, 2);
                     break;
                 case (x < 500):
-                    hanged_man(here, me, 100, 10, 500);
+                    hanged_man(here, me, 100, 100, 100);
                     break;
                 default:
                     corrupt(here, me, 40, 3);
