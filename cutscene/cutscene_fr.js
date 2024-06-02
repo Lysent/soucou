@@ -6,7 +6,7 @@ const scenes = [
             textbox: "/assets/VN/top_box.png",
             portrait1: "",
             portrait2: "",
-            background: ""
+            background: "/assets/VN/background_wall.png"
         }
     },
     {
@@ -16,7 +16,7 @@ const scenes = [
             textbox: "/assets/VN/top_box_lisotem.png",
             portrait1: "/assets/VN/portrait_lisotem.png",
             portrait2: "",
-            background: ""
+            background: "/assets/VN/background_wall.png"
         }
     },
     {
@@ -26,7 +26,7 @@ const scenes = [
             textbox: "/assets/VN/top_box.png",
             portrait1: "/assets/VN/portrait_lisotem.png",
             portrait2: "",
-            background: ""
+            background: "/assets/VN/background_wall.png"
         }
     },
     {
@@ -36,7 +36,7 @@ const scenes = [
             textbox: "/assets/VN/top_box.png",
             portrait1: "/assets/VN/portrait_lisotem.png",
             portrait2: "",
-            background: ""
+            background: "/assets/VN/background_wall.png"
         }
     },
     {
@@ -46,7 +46,7 @@ const scenes = [
             textbox: "/assets/VN/top_box.png",
             portrait1: "/assets/VN/portrait_lisotem.png",
             portrait2: "/assets/VN/portrait_cercey.png",
-            background: ""
+            background: "/assets/VN/background_wall.png"
         }
     },
     {
@@ -56,7 +56,7 @@ const scenes = [
             textbox: "/assets/VN/top_box_cercey.png",
             portrait1: "/assets/VN/portrait_lisotem.png",
             portrait2: "/assets/VN/portrait_cercey.png",
-            background: ""
+            background: "/assets/VN/background_wall.png"
         }
     },
     {
@@ -66,7 +66,7 @@ const scenes = [
             textbox: "/assets/VN/top_box_lisotem.png",
             portrait1: "/assets/VN/portrait_lisotem.png",
             portrait2: "/assets/VN/portrait_cercey.png",
-            background: ""
+            background: "/assets/VN/background_wall.png"
         }
     },
     {
@@ -76,7 +76,7 @@ const scenes = [
             textbox: "/assets/VN/top_box.png",
             portrait1: "/assets/VN/portrait_lisotem.png",
             portrait2: "/assets/VN/portrait_cercey.png",
-            background: ""
+            background: "/assets/VN/background_wall.png"
         }
     },
 ]
