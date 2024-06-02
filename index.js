@@ -371,12 +371,25 @@ const state = {
                 })
             ]
         }
-    }
+    },
+
+    alwaysRun: [
+        ({ ticker, keys }) => {
+            let pausebtn = false, prevpause = false;
+            return () => {
+                pausebtn = !!(keys.n || keys.Escape);
+                if (pausebtn == true && prevpause == false) {
+                    ticker.pause();
+                }
+                prevpause = pausebtn;
+            }
+        }
+    ]
 }
 
 const game = Game(gamecanvas, state);
 game.joindim("main");
-game.ticker.start();
+game.start();
 
 window.game = game;
 
