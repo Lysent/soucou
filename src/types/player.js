@@ -136,19 +136,21 @@ const makePlayer = () => entity("player", { friction: Infinity, health: 50, maxH
         // corruption
         if (me.ccooldown > 0) me.ccooldown--;
         if ((keys.c || keys.x) && me.ccooldown == 0) {
-            me.corrpower++;
+            wait(me, me => {
+                me.corrpower++;
+            }, 200);
         } else if (me.corrpower > 0) {
             const x = me.corrpower;
             me.corrpower = 0;
             switch (true) {
                 case (x < 200):
-                    corrupt(here, me, 40, 3);
+                    corrupt(here, me, 50, 5);
                     break;
                 case (x < 400):
-                    corruption_plague(here, me, 80, 10, 2);
+                    corruption_plague(here, me, 75, 4, 1);
                     break;
-                case (x < 500):
-                    hanged_man(here, me, 100, 100, 100);
+                case (x < 700):
+                    hanged_man(here, me, 100, 45, 10);
                     break;
                 default:
                     corrupt(here, me, 40, 3);
