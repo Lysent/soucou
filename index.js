@@ -266,7 +266,7 @@ const state = {
                                         loop(me, me => {
                                             me.rot += Math.PI / 8;
                                         }, 10);
-                                        wait(me, me => location.href = "./win_screen.html", 500);
+                                        wait(me, me => location.href = "./cutscene/video.html", 500);
                                     }
                                 }, 0);
 
