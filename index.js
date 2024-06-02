@@ -309,13 +309,6 @@ const state = {
     y: gamecanvas.height,
 
     assets: {
-        bullet: {
-            bounds: { type: "soft-void", tolerance: 100 },
-            collision: { box: { w: 6, h: 16 } },
-            images: [
-                await sprite("./assets/bullet.png")
-            ]
-        },
         snowball: {
             bounds: { type: "soft-void", tolerance: 100 },
             collision: { box: { w: 6, h: 6 } },
