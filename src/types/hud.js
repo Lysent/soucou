@@ -68,7 +68,7 @@ const makeHud = player => entity("hud", {
 
         // death
         me.dead ? me.fg = me.fg == false ? true : false : me.fg = false;
-    }, 10);
+    }, 15);
 
     // cercy
     loop(me, (me, { destroy }) => {
