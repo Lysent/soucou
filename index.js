@@ -11,6 +11,7 @@ const
 player.hud = hud;
 
 const gamecanvas = document.querySelector("#game");
+const pausemenu = document.querySelector("#pausemenu");
 
 const state = {
     showHitboxes: 0,
@@ -379,7 +380,8 @@ const state = {
             return () => {
                 pausebtn = !!(keys.n || keys.Escape);
                 if (pausebtn == true && prevpause == false) {
-                    ticker.pause();
+                    const pausestate = ticker.pause();
+                    pausemenu.style.visibility = pausestate ? "visible" : "hidden";
                 }
                 prevpause = pausebtn;
             }
