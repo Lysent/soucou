@@ -249,8 +249,8 @@ const state = {
 
                                         // retreat
                                         if (me.vel.y < 0.05) {
-                                            me.vel.y = -3;
-                                            wait(me, me => me.vel.y = 3, 200);
+                                            me.vel.y += -3;
+                                            wait(me, me => me.vel.y += 3, 200);
                                         }
 
                                         // set damage time
@@ -346,7 +346,7 @@ const state = {
             ]
         },
         cercy: {
-            bounds: { type: "soft-void", tolerance: 100 },
+            bounds: { type: "soft-void", tolerance: 1000 },
             collision: { box: { w: 16, h: 24 } },
             images: [
                 await sprite("./assets/cercey.png"),
