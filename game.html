@@ -28,6 +28,17 @@
     </div>
 
     <script>
+            if (localStorage.getItem('languageScript') == 'fr') {
+                document.querySelector('#pausemenu #resume span').textContent = 'Reprendre';
+                document.querySelector('#pausemenu #settings span').textContent = 'Paramètres';
+                document.querySelector('#pausemenu #title_screen span').textContent = 'Retour à l\'écran titre';
+            } else {
+                document.querySelector('#pausemenu #resume span').textContent = 'Resume';
+                document.querySelector('#pausemenu #settings span').textContent = 'Settings';
+                document.querySelector('#pausemenu #title_screen span').textContent = 'Return to Title Screen';
+            }
+        
+
         title_screen.addEventListener('click', () => {
             window.location.href = './title_screen.html';
         });
