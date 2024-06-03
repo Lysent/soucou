@@ -88,11 +88,12 @@ const corruption_plague = (here, me, distance, limit, speed) => _corrupt(here, m
 const _corrupt_shield_bullet = (here, position, player, life) => summon("corrupt_bullet", here, { ...position }, {}, (me) => {
     // corrupting aura
     loop(me, (me, {destroy}) => {
-        const count = corrupt(here, me, 10, 10);
+        const count = corrupt(here, me, 10, 1);
         if (count) {
-            //destroy();
+            destroy();
+            corrupt(here, me, 75, 20);
             life -= count * 100;
-            //remove(here, me);
+            remove(here, me);
         }
     }, 1);
 
@@ -145,14 +146,14 @@ const makePlayer = () => entity("player", { friction: Infinity, health: 50, maxH
             const x = me.corrpower;
             me.corrpower = 0;
             switch (true) {
-                case (x < 300):
+                case (x < 250):
                     corrupt(here, me, 50, 5);
                     break;
-                case (x < 700):
-                    corruption_plague(here, me, 75, 4, 1);
+                case (x < 950):
+                    corruption_plague(here, me, 80, 4, 1);
                     break;
-                case (x < 1000):
-                    hanged_man(here, me, 100, 45, 10);
+                case (x < 1200):
+                    hanged_man(here, me, 100, 75, 30);
                     break;
                 default:
                     corrupt(here, me, 40, 3);
