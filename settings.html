@@ -20,20 +20,10 @@
 
     <script>
         const languageToggle = document.getElementById('languageToggle');
-
-        languageToggle.addEventListener('change', function () {
-            if (this.checked) {
-                localStorage.setItem('languageScript', 'fr');
-            } else {
-                localStorage.setItem('languageScript', 'en');
-            }
-        });
-
+        languageToggle.addEventListener('change', () => localStorage.setItem('languageScript', languageToggle.checked ? 'fr' : 'en'));
 
         const hitboxToggle = document.getElementById('hitboxToggle');
-        hitboxToggle.addEventListener('change', () => {
-            localStorage.setItem('HitValue', hitboxToggle.checked ? 1 : '0')
-        });
+        hitboxToggle.addEventListener('change', () =>  localStorage.setItem('HitValue', hitboxToggle.checked ? 1 : '0'));
 
         document.addEventListener('DOMContentLoaded', function () {
             const scriptToLoad = localStorage.getItem('languageScript') || 'en';
