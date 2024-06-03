@@ -67,6 +67,7 @@ const _corrupt = (here, me, distance, limit, action) => {
         remove(here, e);
         action(e);
     });
+    return corruptibles.length;
 }
 
 const corrupt = (here, me, distance, limit) => _corrupt(here, me, distance, limit, target => summon("corrupt", here, { ...target.pos }, {}, me => wait(me, (me, { here }) => remove(here, me), 40)));
@@ -86,16 +87,19 @@ const corruption_plague = (here, me, distance, limit, speed) => _corrupt(here, m
 
 const _corrupt_shield_bullet = (here, position, player, life) => summon("corrupt_bullet", here, { ...position }, {}, (me) => {
     // corrupting aura
-    loop(me, () => {
-        corrupt(here, me, 40, 2)
-    }, 10);
+    loop(me, (me, {destroy}) => {
+        const count = corrupt(here, me, 10, 10);
+        if (count) {
+            //destroy();
+            life -= count * 100;
+            //remove(here, me);
+        }
+    }, 1);
 
     // tangent direction, orbit
     const gravity = 0.5;
     let distance = 10;
     const tanvel = () => {
-        const magnitude = gravity / pointDistance(me.pos, player.pos);
-
         faceEntity(me, player);
         velocityFacing(me, gravity);
 
@@ -136,20 +140,18 @@ const makePlayer = () => entity("player", { friction: Infinity, health: 50, maxH
         // corruption
         if (me.ccooldown > 0) me.ccooldown--;
         if ((keys.c || keys.x) && me.ccooldown == 0) {
-            wait(me, me => {
-                me.corrpower++;
-            }, 200);
+            me.corrpower += 0.5;
         } else if (me.corrpower > 0) {
             const x = me.corrpower;
             me.corrpower = 0;
             switch (true) {
-                case (x < 200):
+                case (x < 300):
                     corrupt(here, me, 50, 5);
                     break;
-                case (x < 400):
+                case (x < 700):
                     corruption_plague(here, me, 75, 4, 1);
                     break;
-                case (x < 700):
+                case (x < 1000):
                     hanged_man(here, me, 100, 45, 10);
                     break;
                 default:
