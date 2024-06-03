@@ -13,8 +13,12 @@ player.hud = hud;
 const gamecanvas = document.querySelector("#game");
 const pausemenu = document.querySelector("#pausemenu");
 
+const debug = {
+    hitbox: null
+}
+
 const state = {
-    showHitboxes: localStorage.getItem('HitValue'),
+    showHitboxes: debug.hitbox === null ? localStorage.getItem('HitValue') : debug.hitbox,
 
     dims: {
         main: {

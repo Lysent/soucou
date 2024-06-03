@@ -16,8 +16,8 @@ const hud_type = {
             ctx.fillStyle = "grey";
             ctx.fillRect(0, height - health_height, width * me.power, -corrpower_height);
             ctx.fillStyle = "white";
-            ctx.fillRect(width / 500 * 200, height - health_height, 2, -corrpower_height);
-            ctx.fillRect(width / 500 * 400, height - health_height, 2, -corrpower_height);
+            ctx.fillRect(width / 1000 * 300, height - health_height, 2, -corrpower_height);
+            ctx.fillRect(width / 1000 * 700, height - health_height, 2, -corrpower_height);
 
             // corrupt cooldown bar
             const corrupt_height = 5;
@@ -67,7 +67,7 @@ const makeHud = player => entity("hud", {
     loop(me, me => {
         me.health = player.health / player.maxHealth;
         me.corrupt = 1 - player.ccooldown / 100;
-        me.power = player.corrpower / 500;
+        me.power = player.corrpower / 1000;
     }, 0);
 
     // flash
