@@ -72,23 +72,7 @@
                 document.querySelector(`input[name="difficulty"][value="${localStorage.getItem('selectedDifficulty')}"]`).checked = true;
                 updateOutputs();
             }
-
-            document.querySelectorAll('input[name="difficulty"]').forEach(radio => {
-                radio.addEventListener('change', (event) => {
-                    const selectedValue = event.target.value;
-                    if (selectedValue === 'easy') {
-                        localStorage.setItem('selectedDifficulty', 'easy');
-                    } else if (selectedValue === 'normal') {
-                        localStorage.setItem('selectedDifficulty', 'normal');
-                    } else if (selectedValue === 'hard') {
-                        localStorage.setItem('selectedDifficulty', 'hard');
-                    } else if (selectedValue === 'nightmare') {
-                        localStorage.setItem('selectedDifficulty', 'nightmare');
-                    } else if (selectedValue === 'impossible') {
-                        localStorage.setItem('selectedDifficulty', 'impossible');
-                    }
-                });
-            });
+            document.querySelectorAll('input[name="difficulty"]').forEach(radio => radio.addEventListener('change', (event) => updateOutputs));
         });
     </script>
 </body>
