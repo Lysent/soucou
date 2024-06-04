@@ -4,12 +4,7 @@ body {
     padding: 0;
 }
 
-* {
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-}
+*,
 *::before,
 *::after {
     box-sizing: border-box;
@@ -63,6 +58,7 @@ body {
     padding: 2em;
     
     visibility: hidden;
+    user-select: none;
 }
 
 .overlaymenu>div {
@@ -80,4 +76,5 @@ body {
     border: 2px solid grey;
 
     cursor: pointer;
+    user-select: none;
 }
