@@ -1,4 +1,4 @@
-const lang = localStorage.getItem('languageScript');
+const lang = localStorage.getItem('languageScript') || "en";
 console.log(lang);
 const scripts = {
     en: [
