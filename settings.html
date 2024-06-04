@@ -29,51 +29,66 @@
         </label>
     </div>
     <label>
-        <input type="checkbox" id="outlineToggle"> Enable Outline
+        <input type="checkbox" id="outlineToggle"> Hide Outlines
     </label>
     <label>
         <input type="checkbox" id="hitboxToggle"> Enable Hitboxes
     </label>
+    <label>
+        <input type="checkbox" id="debugToggle"> Show Performance
+    </label>
 
     <script>
         // Language
-        const languageToggle = document.getElementById('languageToggle');
-        languageToggle.addEventListener('change', () => localStorage.setItem('languageScript', languageToggle.checked ? 'fr' : 'en'));
-
-        // Hitbox
-        const hitboxToggle = document.getElementById('hitboxToggle');
-        hitboxToggle.addEventListener('change', () => localStorage.setItem('HitValue', hitboxToggle.checked ? 1 : '0'));
+        const languageToggle = document.getElementById("languageToggle");
+        languageToggle.addEventListener("change", () => localStorage.setItem("languageScript", languageToggle.checked ? "fr" : "en"));
 
         // Difficulty
         function updateOutputs() {
-            const selectedDifficulty = localStorage.getItem('selectedDifficulty');
-            if (selectedDifficulty === 'easy') {
-                localStorage.setItem('selectedDifficulty', 'easy');
-            } else if (selectedDifficulty === 'normal') {
-                localStorage.setItem('selectedDifficulty', 'normal');
-            } else if (selectedDifficulty === 'hard') {
-                localStorage.setItem('selectedDifficulty', 'hard');
-            } else if (selectedDifficulty === 'nightmare') {
-                localStorage.setItem('selectedDifficulty', 'nightmare');
-            } else if (selectedDifficulty === 'impossible') {
-                localStorage.setItem('selectedDifficulty', 'impossible');
+            const selectedDifficulty = localStorage.getItem("selectedDifficulty");
+            if (selectedDifficulty === "easy") {
+                localStorage.setItem("selectedDifficulty", "easy");
+            } else if (selectedDifficulty === "normal") {
+                localStorage.setItem("selectedDifficulty", "normal");
+            } else if (selectedDifficulty === "hard") {
+                localStorage.setItem("selectedDifficulty", "hard");
+            } else if (selectedDifficulty === "nightmare") {
+                localStorage.setItem("selectedDifficulty", "nightmare");
+            } else if (selectedDifficulty === "impossible") {
+                localStorage.setItem("selectedDifficulty", "impossible");
             }
         }
 
-        // Set values from current settings
-        document.addEventListener('DOMContentLoaded', function () {
+        // Outline sprites
+        const outlineToggle = document.querySelector("#outlineToggle");
+        outlineToggle.addEventListener("change", () => localStorage.setItem("hideOutline", Number(outlineToggle.checked)))
+
+        // Hitbox
+        const hitboxToggle = document.querySelector("#hitboxToggle");
+        hitboxToggle.addEventListener("change", () => localStorage.setItem("hitValue", Number(hitboxToggle.checked)));
+
+        // Performance data
+        const perfToggle = document.querySelector("#debugToggle");
+        perfToggle.addEventListener("change", () => localStorage.setItem("debugInfo", Number(perfToggle.checked)));
+
+        // On load
+        document.addEventListener("DOMContentLoaded", function () {
             // Set values from current settings
-            languageToggle.checked = (localStorage.getItem('languageScript') || 'en') === 'fr';
+            languageToggle.checked = (localStorage.getItem("languageScript") || "en") === "fr";
 
-            outlineToggle.checked = !!(localStorage.getItem('HitValue') || 0);
+            outlineToggle.checked = !!Number(localStorage.getItem("hideOutline")) || false;
 
-            if (localStorage.getItem('selectedDifficulty')) {
-                document.querySelector(`input[name="difficulty"][value="${localStorage.getItem('selectedDifficulty')}"]`).checked = true;
+            hitboxToggle.checked = !!(Number(localStorage.getItem("hitValue")) || 0);
+
+            perfToggle.checked = !!Number(localStorage.getItem("debugInfo")) || false;
+
+            if (localStorage.getItem("selectedDifficulty")) {
+                document.querySelector(`input[name="difficulty"][value="${localStorage.getItem("selectedDifficulty")}"]`).checked = true;
                 updateOutputs();
             }
 
             // For all difficulty buttons
-            document.querySelectorAll('input[name="difficulty"]').forEach(radio => radio.addEventListener('change', (event) => updateOutputs));
+            document.querySelectorAll('input[name="difficulty"]').forEach(radio => radio.addEventListener("change", (event) => updateOutputs));
         });
     </script>
 </body>

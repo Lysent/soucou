@@ -18,7 +18,7 @@ const debug = {
 }
 
 const state = {
-    showHitboxes: debug.hitbox === null ? localStorage.getItem('HitValue') : debug.hitbox,
+    showHitboxes: debug.hitbox === null ? localStorage.getItem('hitValue') : debug.hitbox,
 
     dims: {
         main: {

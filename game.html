@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <span id="performance" style="position: absolute;left:0;top:0">sso</span>
+    <span id="performance" style="position:absolute;left:0;top:0; visibility:hidden;">sso</span>
     <div class="holder">
         <canvas id="game" width="640" , height="480"></canvas>
         <div id="pausemenu" class="overlaymenu">
@@ -55,10 +55,9 @@
             game.ticker.pause(false);
         });
 
-        resume.addEventListener('click', () => {
-            pausemenu.style.visibility = 'hidden';
-            game.ticker.pause(false)
-        });
+        // show/hide performance
+        console.log((Boolean(localStorage.getItem("debugInfo")) || false) ? "visible" : "hidden")
+        document.querySelector("#performance").style.visibility = (!!Number(localStorage.getItem("debugInfo")) || false) ? "visible" : "hidden";
     </script>
 </body>
 

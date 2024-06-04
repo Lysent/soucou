@@ -1,25 +1,25 @@
 import { entity, entityDistanceSort, faceEntity, loop, pointDistance, remove, summon, velocityFacing, velocityFacingAdd, wait } from "../../lib/generators.js";
 import { sprite, procedure } from "../../lib/assetloader.js";
 
+const _sprites = !!Number(localStorage.getItem("hideOutline"))
+    ? [
+        await sprite("../assets/Outlineless/lisotem.png"),
+        await sprite("../assets/Outlineless/lisotem_left.png"),
+        await sprite("../assets/Outlineless/lisotem_right.png")
+    ]
+    : [
+        await sprite("../assets/Outlined/lisotem.png"),
+        await sprite("../assets/Outlined/lisotem_left.png"),
+        await sprite("../assets/Outlined/lisotem_right.png")
+    ]
+
 const player_type = {
     bounds: { type: "hard" },
     collision: {
         origin: true,
         box: { w: 4, h: 32 }
     },
-
-    images: [
-        await sprite("../assets/Outlineless/lisotem.png"),
-        await sprite("../assets/Outlineless/lisotem_left.png"),
-        await sprite("../assets/Outlineless/lisotem_right.png")
-    ],
-
-    images: [
-        await sprite("../assets/Outlined/lisotem.png"),
-        await sprite("../assets/Outlined/lisotem_left.png"),
-        await sprite("../assets/Outlined/lisotem_right.png")
-    ]
-
+    images: _sprites
 }
 
 const corrupt_type = {
@@ -87,7 +87,7 @@ const corruption_plague = (here, me, distance, limit, speed) => _corrupt(here, m
 
 const _corrupt_shield_bullet = (here, position, player, life) => summon("corrupt_bullet", here, { ...position }, {}, (me) => {
     // corrupting aura
-    loop(me, (me, {destroy}) => {
+    loop(me, (me, { destroy }) => {
         const count = corrupt(here, me, 10, 1);
         if (count) {
             destroy();
