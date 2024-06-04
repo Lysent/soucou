@@ -44,7 +44,7 @@
         const hitboxToggle = document.getElementById('hitboxToggle');
         hitboxToggle.addEventListener('change', () => localStorage.setItem('HitValue', hitboxToggle.checked ? 1 : '0'));
 
-        //Difficulty
+        // Difficulty
         function updateOutputs() {
             const selectedDifficulty = localStorage.getItem('selectedDifficulty');
             if (selectedDifficulty === 'easy') {
