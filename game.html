@@ -42,6 +42,9 @@
             title_screen.textContent = "Return to Title Screen";
         }
 
+        title_screen.addEventListener("click", () => {
+            window.location.href = "./title_screen.html";
+        });
 
         settings.addEventListener("click", () => {
             window.location.href = "./settings.html";
