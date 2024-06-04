@@ -181,7 +181,7 @@ const advance = () => {
     const i = currentIndex;
     currentIndex++;
     if (currentIndex > scenes.length) {
-        window.location.href = "/game.html";
+        window.location.href = "../game.html";
     }
 
     const scene = scenes[i];
