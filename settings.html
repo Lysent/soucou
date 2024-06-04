@@ -60,7 +60,7 @@
             }
         }
 
-        // All of the above
+        // Set values from current settings
         document.addEventListener('DOMContentLoaded', function () {
             const scriptToLoad = localStorage.getItem('languageScript') || 'en';
             languageToggle.checked = scriptToLoad === 'fr';
