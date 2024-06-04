@@ -1,4 +1,10 @@
-*,
+* {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
 *::before,
 *::after {
 	box-sizing: border-box;
@@ -58,7 +64,7 @@ body {
 	height: 0;
 	max-height: 100%;
 	max-width: 100%;
-    object-fit: contain;
+	object-fit: contain;
 	align-self: flex-end;
 }
 
@@ -97,7 +103,7 @@ body {
 	font-weight: bold;
 	font-size: 4ch;
 
-	overflow:visible;
+	overflow: visible;
 
 	background-image: url(../assets/VN/top_box.png);
 	background-position: center center;
