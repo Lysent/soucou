@@ -6,80 +6,80 @@ const scripts = {
             title: "",
             text: "Lisotem walked out of the shop, two crepes in hand. As he leisurely walked on the streets, he kept eating one of his crepes until it was no more.",
             images: {
-                textbox: "/assets/VN/top_box.png",
+                textbox: "../assets/VN/top_box.png",
                 portrait1: "",
                 portrait2: "",
-                background: "/assets/VN/background_wall.png"
+                background: "../assets/VN/background_wall.png"
             }
         },
         {
             title: "Lisotem",
             text: "Now that's settled, I should try to get out of here.",
             images: {
-                textbox: "/assets/VN/top_box_lisotem.png",
-                portrait1: "/assets/VN/portrait_lisotem.png",
+                textbox: "../assets/VN/top_box_lisotem.png",
+                portrait1: "../assets/VN/portrait_lisotem.png",
                 portrait2: "",
-                background: "/assets/VN/background_wall.png"
+                background: "../assets/VN/background_wall.png"
             }
         },
         {
             title: "",
             text: "The gentleman continued onwards, towards the impressive yet antiquated walls surrounding the city.",
             images: {
-                textbox: "/assets/VN/top_box.png",
-                portrait1: "/assets/VN/portrait_lisotem.png",
+                textbox: "../assets/VN/top_box.png",
+                portrait1: "../assets/VN/portrait_lisotem.png",
                 portrait2: "",
-                background: "/assets/VN/background_wall.png"
+                background: "../assets/VN/background_wall.png"
             }
         },
         {
             title: "",
             text: "A few signs prohibiting entry clearly stood on either sides of the road. He cared not.",
             images: {
-                textbox: "/assets/VN/top_box.png",
-                portrait1: "/assets/VN/portrait_lisotem.png",
+                textbox: "../assets/VN/top_box.png",
+                portrait1: "../assets/VN/portrait_lisotem.png",
                 portrait2: "",
-                background: "/assets/VN/background_wall.png"
+                background: "../assets/VN/background_wall.png"
             }
         },
         {
             title: "",
             text: "A red-haired and red-clad woman stood on the walkway.",
             images: {
-                textbox: "/assets/VN/top_box.png",
-                portrait1: "/assets/VN/portrait_lisotem.png",
-                portrait2: "/assets/VN/portrait_cercey.png",
-                background: "/assets/VN/background_wall.png"
+                textbox: "../assets/VN/top_box.png",
+                portrait1: "../assets/VN/portrait_lisotem.png",
+                portrait2: "../assets/VN/portrait_cercey.png",
+                background: "../assets/VN/background_wall.png"
             }
         },
         {
             title: "Cercey",
             text: "Hey! No one is allowed to leave the city! Get back!",
             images: {
-                textbox: "/assets/VN/top_box_cercey.png",
-                portrait1: "/assets/VN/portrait_lisotem.png",
-                portrait2: "/assets/VN/portrait_cercey.png",
-                background: "/assets/VN/background_wall.png"
+                textbox: "../assets/VN/top_box_cercey.png",
+                portrait1: "../assets/VN/portrait_lisotem.png",
+                portrait2: "../assets/VN/portrait_cercey.png",
+                background: "../assets/VN/background_wall.png"
             }
         },
         {
             title: "Lisotem",
             text: "...",
             images: {
-                textbox: "/assets/VN/top_box_lisotem.png",
-                portrait1: "/assets/VN/portrait_lisotem.png",
-                portrait2: "/assets/VN/portrait_cercey.png",
-                background: "/assets/VN/background_wall.png"
+                textbox: "../assets/VN/top_box_lisotem.png",
+                portrait1: "../assets/VN/portrait_lisotem.png",
+                portrait2: "../assets/VN/portrait_cercey.png",
+                background: "../assets/VN/background_wall.png"
             }
         },
         {
             title: "",
             text: "He took several steps forward. Several goons appeared from the watchtower to intercept him.",
             images: {
-                textbox: "/assets/VN/top_box.png",
-                portrait1: "/assets/VN/portrait_lisotem.png",
-                portrait2: "/assets/VN/portrait_cercey.png",
-                background: "/assets/VN/background_wall.png"
+                textbox: "../assets/VN/top_box.png",
+                portrait1: "../assets/VN/portrait_lisotem.png",
+                portrait2: "../assets/VN/portrait_cercey.png",
+                background: "../assets/VN/background_wall.png"
             }
         },
     ],
@@ -88,80 +88,80 @@ const scripts = {
             title: "",
             text: "Lisotème sortit du magasin, deux crêpes à la main. Tout en marchant tranquillement dans les rues, il continua à manger une de ses crêpes jusqu'à ce qu'il n'y en ait plus. ",
             images: {
-                textbox: "/assets/VN/top_box.png",
+                textbox: "../assets/VN/top_box.png",
                 portrait1: "",
                 portrait2: "",
-                background: "/assets/VN/background_wall.png"
+                background: "../assets/VN/background_wall.png"
             }
         },
         {
             title: "Lisotème",
             text: "Maintenant que c'est réglé, je devrais essayer de sortir d'ici.",
             images: {
-                textbox: "/assets/VN/top_box_lisotem.png",
-                portrait1: "/assets/VN/portrait_lisotem.png",
+                textbox: "../assets/VN/top_box_lisotem.png",
+                portrait1: "../assets/VN/portrait_lisotem.png",
                 portrait2: "",
-                background: "/assets/VN/background_wall.png"
+                background: "../assets/VN/background_wall.png"
             }
         },
         {
             title: "",
             text: "Cet homme continue son chemin, vers les impressionnants mais vétustes murs qui entourent la ville.",
             images: {
-                textbox: "/assets/VN/top_box.png",
-                portrait1: "/assets/VN/portrait_lisotem.png",
+                textbox: "../assets/VN/top_box.png",
+                portrait1: "../assets/VN/portrait_lisotem.png",
                 portrait2: "",
-                background: "/assets/VN/background_wall.png"
+                background: "../assets/VN/background_wall.png"
             }
         },
         {
             title: "",
             text: "Quelques panneaux interdisant l’entrée se trouvaient clairement de chaque côté de la route. Il s'en fichait.",
             images: {
-                textbox: "/assets/VN/top_box.png",
-                portrait1: "/assets/VN/portrait_lisotem.png",
+                textbox: "../assets/VN/top_box.png",
+                portrait1: "../assets/VN/portrait_lisotem.png",
                 portrait2: "",
-                background: "/assets/VN/background_wall.png"
+                background: "../assets/VN/background_wall.png"
             }
         },
         {
             title: "",
             text: "Une femme aux cheveux roux et vêtue de rouge se tenait sur les remparts.",
             images: {
-                textbox: "/assets/VN/top_box.png",
-                portrait1: "/assets/VN/portrait_lisotem.png",
-                portrait2: "/assets/VN/portrait_cercey.png",
-                background: "/assets/VN/background_wall.png"
+                textbox: "../assets/VN/top_box.png",
+                portrait1: "../assets/VN/portrait_lisotem.png",
+                portrait2: "../assets/VN/portrait_cercey.png",
+                background: "../assets/VN/background_wall.png"
             }
         },
         {
             title: "Cercey",
             text: "Hey ! Personne n'est autorisé à quitter la ville ! Retournez en arrière!",
             images: {
-                textbox: "/assets/VN/top_box_cercey.png",
-                portrait1: "/assets/VN/portrait_lisotem.png",
-                portrait2: "/assets/VN/portrait_cercey.png",
-                background: "/assets/VN/background_wall.png"
+                textbox: "../assets/VN/top_box_cercey.png",
+                portrait1: "../assets/VN/portrait_lisotem.png",
+                portrait2: "../assets/VN/portrait_cercey.png",
+                background: "../assets/VN/background_wall.png"
             }
         },
         {
             title: "Lisotème",
             text: "...",
             images: {
-                textbox: "/assets/VN/top_box_lisotem.png",
-                portrait1: "/assets/VN/portrait_lisotem.png",
-                portrait2: "/assets/VN/portrait_cercey.png",
-                background: "/assets/VN/background_wall.png"
+                textbox: "../assets/VN/top_box_lisotem.png",
+                portrait1: "../assets/VN/portrait_lisotem.png",
+                portrait2: "../assets/VN/portrait_cercey.png",
+                background: "../assets/VN/background_wall.png"
             }
         },
         {
             title: "",
             text: "Il fait plusieurs pas en avant. Plusieurs gardes sont apparus depuis la tour de guet pour l'intercepter. ",
             images: {
-                textbox: "/assets/VN/top_box.png",
-                portrait1: "/assets/VN/portrait_lisotem.png",
-                portrait2: "/assets/VN/portrait_cercey.png",
-                background: "/assets/VN/background_wall.png"
+                textbox: "../assets/VN/top_box.png",
+                portrait1: "../assets/VN/portrait_lisotem.png",
+                portrait2: "../assets/VN/portrait_cercey.png",
+                background: "../assets/VN/background_wall.png"
             }
         },
     ]
