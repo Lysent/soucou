@@ -11,6 +11,23 @@
     <label>
         <input type="checkbox" id="languageToggle"> French instead of English
     </label>
+    <div>
+        <label>
+            <input type="radio" name="difficulty" value="easy"> Favoured
+        </label>
+        <label>
+            <input type="radio" name="difficulty" value="normal"> Mortal
+        </label>
+        <label>
+            <input type="radio" name="difficulty" value="hard"> Demigod
+        </label>
+        <label>
+            <input type="radio" name="difficulty" value="nightmare"> Celestial
+        </label>
+        <label>
+            <input type="radio" name="difficulty" value="impossible"> Totality
+        </label>
+    </div>
     <label>
         <input type="checkbox" id="outlineToggle"> Enable Outline
     </label>
@@ -19,19 +36,62 @@
     </label>
 
     <script>
+        // Language
         const languageToggle = document.getElementById('languageToggle');
         languageToggle.addEventListener('change', () => localStorage.setItem('languageScript', languageToggle.checked ? 'fr' : 'en'));
 
+        // Hitbox
         const hitboxToggle = document.getElementById('hitboxToggle');
-        hitboxToggle.addEventListener('change', () =>  localStorage.setItem('HitValue', hitboxToggle.checked ? 1 : '0'));
+        hitboxToggle.addEventListener('change', () => localStorage.setItem('HitValue', hitboxToggle.checked ? 1 : '0'));
 
+        //Difficulty
+        function updateOutputs() {
+            const selectedDifficulty = localStorage.getItem('selectedDifficulty');
+            if (selectedDifficulty === 'easy') {
+                localStorage.setItem('selectedDifficulty', 'easy');
+            } else if (selectedDifficulty === 'normal') {
+                localStorage.setItem('selectedDifficulty', 'normal');
+            } else if (selectedDifficulty === 'hard') {
+                localStorage.setItem('selectedDifficulty', 'hard');
+            } else if (selectedDifficulty === 'nightmare') {
+                localStorage.setItem('selectedDifficulty', 'nightmare');
+            } else if (selectedDifficulty === 'impossible') {
+                localStorage.setItem('selectedDifficulty', 'impossible');
+            }
+        }
+
+        // All of the above
         document.addEventListener('DOMContentLoaded', function () {
             const scriptToLoad = localStorage.getItem('languageScript') || 'en';
             languageToggle.checked = scriptToLoad === 'fr';
 
             const hitboxSetting = localStorage.getItem('HitValue') || 0;
             outlineToggle.checked = !!hitboxSetting;
+
+            if (localStorage.getItem('selectedDifficulty')) {
+                document.querySelector(`input[name="difficulty"][value="${localStorage.getItem('selectedDifficulty')}"]`).checked = true;
+                updateOutputs();
+            }
+
+            document.querySelectorAll('input[name="difficulty"]').forEach(radio => {
+                radio.addEventListener('change', (event) => {
+                    const selectedValue = event.target.value;
+                    if (selectedValue === 'easy') {
+                        localStorage.setItem('selectedDifficulty', 'easy');
+                    } else if (selectedValue === 'normal') {
+                        localStorage.setItem('selectedDifficulty', 'normal');
+                    } else if (selectedValue === 'hard') {
+                        localStorage.setItem('selectedDifficulty', 'hard');
+                    } else if (selectedValue === 'nightmare') {
+                        localStorage.setItem('selectedDifficulty', 'nightmare');
+                    } else if (selectedValue === 'impossible') {
+                        localStorage.setItem('selectedDifficulty', 'impossible');
+                    }
+                });
+            });
         });
+
+
     </script>
 </body>
 
