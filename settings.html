@@ -63,11 +63,9 @@
         // Set values from current settings
         document.addEventListener('DOMContentLoaded', function () {
             // Set values from current settings
-            const scriptToLoad = localStorage.getItem('languageScript') || 'en';
-            languageToggle.checked = scriptToLoad === 'fr';
+            languageToggle.checked = (localStorage.getItem('languageScript') || 'en') === 'fr';
 
-            const hitboxSetting = localStorage.getItem('HitValue') || 0;
-            outlineToggle.checked = !!hitboxSetting;
+            outlineToggle.checked = !!(localStorage.getItem('HitValue') || 0);
 
             if (localStorage.getItem('selectedDifficulty')) {
                 document.querySelector(`input[name="difficulty"][value="${localStorage.getItem('selectedDifficulty')}"]`).checked = true;
