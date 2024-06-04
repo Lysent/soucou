@@ -72,6 +72,8 @@
                 document.querySelector(`input[name="difficulty"][value="${localStorage.getItem('selectedDifficulty')}"]`).checked = true;
                 updateOutputs();
             }
+
+            // For all difficulty buttons
             document.querySelectorAll('input[name="difficulty"]').forEach(radio => radio.addEventListener('change', (event) => updateOutputs));
         });
     </script>
