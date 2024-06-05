@@ -46,16 +46,18 @@
             top: 66.66%;
         }
     </style>
-    <script>
-        if(localStorage.getItem("languageScript") == "fr") {
-            document.querySelector(".background").style.background = `url('./assets/soucou_title_screen_fr.png') no-repeat center center`
-        };
-    </script>
 </head>
 <body>
     <div class="background"></div>
     <div class="clickable top" onclick="window.location.href='./cutscene/cutscene.html'"></div>
     <div class="clickable middle" onclick="window.location.href='./settings.html#s'"></div>
     <div class="clickable bottom" onclick="window.location.href='https://www.google.com/'"></div>
+    <script>
+        if(localStorage.getItem("languageScript") == "fr") {
+            const bg = document.querySelector(".background")
+            bg.style.background = `url('./assets/soucou_title_screen_fr.png') no-repeat center center`;
+            bg.style.backgroundColor = "#212121";
+        };
+    </script>
 </body>
 </html>

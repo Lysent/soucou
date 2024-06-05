@@ -38,14 +38,16 @@
             top: 99%;
         }
     </style>
-    <script>
-        if(localStorage.getItem("languageScript") == "fr") {
-            document.querySelector(".background").style.background = `url('./assets/die_fr.png') no-repeat center center`
-        };
-    </script>
 </head>
 <body>
     <div class="background"></div>
-    <script>document.onclick = () => location.href = "./game.html"</script>
+    <script>
+        document.onclick = () => location.href = "./game.html"
+        if(localStorage.getItem("languageScript") == "fr") {
+            const bg = document.querySelector(".background");
+            bg.style.background = `url('./assets/die_fr.png') no-repeat center center`;
+            bg.style.backgroundColor = "#212121";
+        };
+    </script>
 </body>
 </html>
