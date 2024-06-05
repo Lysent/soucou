@@ -44,20 +44,7 @@
         languageToggle.addEventListener("change", () => localStorage.setItem("languageScript", languageToggle.checked ? "fr" : "en"));
 
         // Difficulty
-        function updateOutputs() {
-            const selectedDifficulty = localStorage.getItem("selectedDifficulty");
-            if (selectedDifficulty === "easy") {
-                localStorage.setItem("selectedDifficulty", "easy");
-            } else if (selectedDifficulty === "normal") {
-                localStorage.setItem("selectedDifficulty", "normal");
-            } else if (selectedDifficulty === "hard") {
-                localStorage.setItem("selectedDifficulty", "hard");
-            } else if (selectedDifficulty === "nightmare") {
-                localStorage.setItem("selectedDifficulty", "nightmare");
-            } else if (selectedDifficulty === "impossible") {
-                localStorage.setItem("selectedDifficulty", "impossible");
-            }
-        }
+        // in init because radio multiple
 
         // Outline sprites
         const outlineToggle = document.querySelector("#outlineToggle");
@@ -82,13 +69,16 @@
 
             perfToggle.checked = !!Number(localStorage.getItem("debugInfo")) || false;
 
-            if (localStorage.getItem("selectedDifficulty")) {
-                document.querySelector(`input[name="difficulty"][value="${localStorage.getItem("selectedDifficulty")}"]`).checked = true;
-                updateOutputs();
-            }
+            const storedDifficulty = localStorage.getItem("selectedDifficulty") || "normal";
+            if (storedDifficulty) document.querySelector(`input[name="difficulty"][value="${storedDifficulty}"]`).checked = true;
 
             // For all difficulty buttons
-            document.querySelectorAll('input[name="difficulty"]').forEach(radio => radio.addEventListener("change", (event) => updateOutputs));
+            function updateDifficulty() {
+                const selected = Array.from(document.querySelectorAll("input[name=difficulty]")).filter(r => r.checked)[0];
+                console.log(selected);
+                localStorage.setItem("selectedDifficulty", selected.value);
+            }
+            document.querySelectorAll('input[name="difficulty"]').forEach(radio => radio.addEventListener("change", () => updateDifficulty()));
         });
     </script>
 </body>
