@@ -5,7 +5,7 @@ import { animate, entity_process, face, faceEntity, faceEntityRaw, loop, remove,
 import * as types from "./src/types/types.js";
 window.types = types;
 
-import d from "../difficulty.js";
+import d from "./src/difficulty.js";
 
 const
     player = types.makePlayer(),
