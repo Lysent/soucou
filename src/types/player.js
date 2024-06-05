@@ -142,7 +142,7 @@ const makePlayer = () => entity("player", { friction: Infinity, health: d.player
         // corruption
         if (me.ccooldown > 0) me.ccooldown--;
         if ((keys.c || keys.x) && me.ccooldown == 0) {
-            me.corrpower += 0.5;
+            me.corrpower += d.player.corruptRate;
         } else if (me.corrpower > 0) {
             const x = me.corrpower;
             me.corrpower = 0;
