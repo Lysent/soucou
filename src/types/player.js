@@ -1,5 +1,6 @@
 import { entity, entityDistanceSort, faceEntity, loop, pointDistance, remove, summon, velocityFacing, velocityFacingAdd, wait } from "../../lib/generators.js";
 import { sprite, procedure } from "../../lib/assetloader.js";
+import d from "../difficulty.js";
 
 const _sprites = !!Number(localStorage.getItem("hideOutline"))
     ? [
@@ -115,7 +116,7 @@ const _corrupt_shield_bullet = (here, position, player, life) => summon("corrupt
 
 const hanged_man = (here, me, distance, limit, life) => _corrupt(here, me, distance, limit, target => _corrupt_shield_bullet(here, { ...target.pos }, me, life));
 
-const makePlayer = () => entity("player", { friction: Infinity, health: 50, maxHealth: 50, ccooldown: 0, corrpower: 0 }, (me, { canvas, addassets }) => {
+const makePlayer = () => entity("player", { friction: Infinity, health: d.player.health, maxHealth: d.player.health, ccooldown: 0, corrpower: 0 }, (me, { canvas, addassets }) => {
     me.pos = { x: canvas.width / 2, y: canvas.height - 20 };
 
     addassets(type_depend);

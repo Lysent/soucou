@@ -5,6 +5,8 @@ import { animate, entity_process, face, faceEntity, faceEntityRaw, loop, remove,
 import * as types from "./src/types/types.js";
 window.types = types;
 
+import d from "../difficulty.js";
+
 const
     player = types.makePlayer(),
     hud = types.makeHud(player);
@@ -242,9 +244,9 @@ const state = {
                                 }, Math.floor(Math.random() * (14 - 8 + 1)) + 8);
 
                                 // cercy health
-                                cercey.health = 5;
+                                cercey.health = d.cercey.health;
                                 hud.cercey = cercey;
-                                let prevhealth = 5;
+                                let prevhealth = d.cercey.health;
                                 loop(cercey, (me, { destroy }) => {
                                     // damage flash
                                     hud.cerceyDamage > 0 ? hud.cerceyDamage -= 1 : 0;

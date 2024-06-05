@@ -1,5 +1,6 @@
 import { entity, loop } from "../../lib/generators.js";
 import { procedure } from "../../lib/assetloader.js";
+import d from "../difficulty.js";
 
 const hud_type = {
     images: [
@@ -86,7 +87,7 @@ const makeHud = player => entity("hud", {
 
             // sync
             loop(me, me => {
-                me.cerceyhealth = me.cercey.health / 5;
+                me.cerceyhealth = me.cercey.health / d.cercey.health;
             }, 0);
 
             // flash
