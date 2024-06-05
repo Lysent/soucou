@@ -6,7 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Settings</title>
     <style>
-                body {
+        * {
+            box-sizing: border-box;
+        }
+        body {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -16,6 +19,10 @@
             font-family: Arial, sans-serif;
         }
         .settings-container {
+            max-height: 100%;
+            display: flex;
+            flex-flow: column wrap;
+            align-items: center;
             background-color: #000;
             border: 1px solid #555;
             padding: 20px;
@@ -23,7 +30,7 @@
         .settings-container label, .settings-container .apply-button, .settings-container .difficulty-container {
             display: block;
             margin: 10px 0;
-            font-size: 1.5em;
+            font-size: 1em;
             color: #fff;
             padding: 10px;
             border: 1px solid #555;
@@ -123,6 +130,9 @@
             }
             document.querySelectorAll('input[name="difficulty"]').forEach(radio => radio.addEventListener("change", () => updateDifficulty()));
         });
+
+        // Apply and return button
+        document.querySelector(".apply-button").onclick = () => location.href = location.hash == "#s" ? "./title_screen.html" : "./game.html";
     </script>
 </body>
 
