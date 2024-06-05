@@ -5,38 +5,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Settings</title>
+    <style>
+                body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #222;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .settings-container {
+            background-color: #000;
+            border: 1px solid #555;
+            padding: 20px;
+        }
+        .settings-container label, .settings-container .apply-button, .settings-container .difficulty-container {
+            display: block;
+            margin: 10px 0;
+            font-size: 1.5em;
+            color: #fff;
+            padding: 10px;
+            border: 1px solid #555;
+            background-color: #000;
+        }
+        .settings-container .apply-button {
+            background-color: #00f;
+            cursor: pointer;
+        }
+        .settings-container input[type="checkbox"], .settings-container input[type="radio"] {
+            margin-right: 10px;
+        }
+        .difficulty-container {
+            padding: 15px;
+        }
+        .difficulty-container > label {
+            border: none;
+            background-color: none;
+        }
+    </style>
 </head>
 
 <body>
-    <label>
-        <input type="checkbox" id="languageToggle"> French instead of English
-    </label>
-    <div>
+    <div class="settings-container">
         <label>
-            <input type="radio" name="difficulty" value="easy"> Favoured
+            <input type="checkbox" id="languageToggle"> French instead of English
+        </label>
+        <div class="difficulty-container">
+            <label>Difficulty</label>
+            <label>
+                <input type="radio" name="difficulty" value="easy"> Favoured
+            </label>
+            <label>
+                <input type="radio" name="difficulty" value="normal" checked> Mortal
+            </label>
+            <label>
+                <input type="radio" name="difficulty" value="hard"> Demigod
+            </label>
+            <label>
+                <input type="radio" name="difficulty" value="nightmare"> Celestial
+            </label>
+            <label>
+                <input type="radio" name="difficulty" value="impossible"> Totality
+            </label>
+        </div>
+        <label>
+            <input type="checkbox" id="outlineToggle"> Hide Outlines
         </label>
         <label>
-            <input type="radio" name="difficulty" value="normal" checked> Mortal
+            <input type="checkbox" id="hitboxToggle"> Enable Hitboxes
         </label>
         <label>
-            <input type="radio" name="difficulty" value="hard"> Demigod
+            <input type="checkbox" id="debugToggle"> Show Performance
         </label>
-        <label>
-            <input type="radio" name="difficulty" value="nightmare"> Celestial
-        </label>
-        <label>
-            <input type="radio" name="difficulty" value="impossible"> Totality
-        </label>
+        <button class="apply-button">Apply and Return</button>
     </div>
-    <label>
-        <input type="checkbox" id="outlineToggle"> Hide Outlines
-    </label>
-    <label>
-        <input type="checkbox" id="hitboxToggle"> Enable Hitboxes
-    </label>
-    <label>
-        <input type="checkbox" id="debugToggle"> Show Performance
-    </label>
 
     <script>
         // Language
