@@ -7,6 +7,9 @@ window.types = types;
 
 import d from "./src/difficulty.js";
 
+import { playsound } from "./src/sfx.js";
+window.playsound = playsound;
+
 const
     player = types.makePlayer(),
     hud = types.makeHud(player);
@@ -27,6 +30,10 @@ const state = {
             entities: [
                 // marker for world processing
                 entity_process((me, { here, canvas }) => {
+                    // reference
+                    const eproc = me;
+
+
                     // custom generators
                     const center = canvas.width / 2;
                     const snowball_wave = (count, force, pushpoint = center, width = canvas.width - 50, offset = 25) => {
@@ -195,6 +202,9 @@ const state = {
                                 if (numgoons == 0) {
                                     destroy();
 
+                                    // boss music
+                                    eproc.bossmusic = playsound("rlds");
+
                                     wait(me, me => next(), 200);
                                 }
                             }, 2);
@@ -268,6 +278,9 @@ const state = {
                                         hud.cerceydead = true;
                                         player.health = 9999;
                                         destroy();
+
+                                        // stop boss music
+                                        eproc.bossmusic.fade(1, 0, 4000);
 
                                         loop(me, me => {
                                             me.rot += Math.PI / 8;
