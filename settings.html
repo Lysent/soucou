@@ -56,42 +56,45 @@
 <body>
     <div class="settings-container">
         <label>
-            <input type="checkbox" id="languageToggle"> French instead of English
+            <input type="checkbox" id="languageToggle"> <span id="languageLabel">French instead of English</span>
         </label>
         <div class="difficulty-container">
-            <label>Difficulty</label>
+            <label id="difficultyLabel">Difficulty</label>
             <label>
-                <input type="radio" name="difficulty" value="easy"> Favoured
+                <input type="radio" name="difficulty" value="easy"> <span id="easyLabel">Favoured</span>
             </label>
             <label>
-                <input type="radio" name="difficulty" value="normal" checked> Mortal
+                <input type="radio" name="difficulty" value="normal" checked> <span id="normalLabel">Mortal</span>
             </label>
             <label>
-                <input type="radio" name="difficulty" value="hard"> Demigod
+                <input type="radio" name="difficulty" value="hard"> <span id="hardLabel">Demigod</span>
             </label>
             <label>
-                <input type="radio" name="difficulty" value="nightmare"> Celestial
+                <input type="radio" name="difficulty" value="nightmare"> <span id="nightmareLabel">Celestial</span>
             </label>
             <label>
-                <input type="radio" name="difficulty" value="impossible"> Totality
+                <input type="radio" name="difficulty" value="impossible"> <span id="impossibleLabel">Totality</span>
             </label>
         </div>
         <label>
-            <input type="checkbox" id="outlineToggle"> Hide Outlines
+            <input type="checkbox" id="outlineToggle"> <span id="outlineLabel">Hide Outlines</span>
         </label>
         <label>
-            <input type="checkbox" id="hitboxToggle"> Enable Hitboxes
+            <input type="checkbox" id="hitboxToggle"> <span id="hitboxLabel">Enable Hitboxes</span>
         </label>
         <label>
-            <input type="checkbox" id="debugToggle"> Show Performance
+            <input type="checkbox" id="debugToggle"> <span id="debugLabel">Show Performance</span>
         </label>
-        <button class="apply-button">Apply and Return</button>
+        <button class="apply-button" id="applyButton">Apply and Return</button>
     </div>
 
     <script>
         // Language
         const languageToggle = document.getElementById("languageToggle");
-        languageToggle.addEventListener("change", () => localStorage.setItem("languageScript", languageToggle.checked ? "fr" : "en"));
+        languageToggle.addEventListener("change", () => {
+            localStorage.setItem("languageScript", languageToggle.checked ? "fr" : "en");
+            settingsLanguage(localStorage.getItem("languageScript") || "en");
+        });
 
         // Difficulty
         // in init because radio multiple
@@ -112,6 +115,7 @@
         document.addEventListener("DOMContentLoaded", function () {
             // Set values from current settings
             languageToggle.checked = (localStorage.getItem("languageScript") || "en") === "fr";
+            settingsLanguage(localStorage.getItem("languageScript") || "en")
 
             outlineToggle.checked = !!Number(localStorage.getItem("hideOutline")) || false;
 
@@ -133,6 +137,51 @@
 
         // Apply and return button
         document.querySelector(".apply-button").onclick = () => location.href = location.hash == "#s" ? "./title_screen.html" : "./game.html";
+    
+        // Translate the setings page itself
+        const translations = {
+            en: {
+                languageToggle: "French instead of English",
+                difficulty: "Difficulty",
+                easy: "Favoured",
+                normal: "Mortal",
+                hard: "Demigod",
+                nightmare: "Celestial",
+                impossible: "Totality",
+                outlineToggle: "Hide Outlines",
+                hitboxToggle: "Enable Hitboxes",
+                debugToggle: "Show Performance",
+                applyButton: "Apply and Return"
+            },
+            fr: {
+                languageToggle: "Français au lieu de l'Anglais",
+                difficulty: "Difficulté",
+                easy: "Favorisé",
+                normal: "Mortel",
+                hard: "Demi-dieu",
+                nightmare: "Céleste",
+                impossible: "Totalité",
+                outlineToggle: "Masquer les contours",
+                hitboxToggle: "Afficher les hitboxes",
+                debugToggle: "Afficher les performances",
+                applyButton: "Appliquer"
+            }
+        };
+
+        function settingsLanguage(lang) {
+            const keys = translations[lang];
+            document.getElementById('languageLabel').textContent = keys.languageToggle;
+            document.getElementById('difficultyLabel').textContent = keys.difficulty;
+            document.getElementById('easyLabel').textContent = keys.easy;
+            document.getElementById('normalLabel').textContent = keys.normal;
+            document.getElementById('hardLabel').textContent = keys.hard;
+            document.getElementById('nightmareLabel').textContent = keys.nightmare;
+            document.getElementById('impossibleLabel').textContent = keys.impossible;
+            document.getElementById('outlineLabel').textContent = keys.outlineToggle;
+            document.getElementById('hitboxLabel').textContent = keys.hitboxToggle;
+            document.getElementById('debugLabel').textContent = keys.debugToggle;
+            document.getElementById('applyButton').textContent = keys.applyButton;
+        }
     </script>
 </body>
 
