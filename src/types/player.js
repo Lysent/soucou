@@ -4,14 +4,14 @@ import d from "../difficulty.js";
 
 const _sprites = !!Number(localStorage.getItem("hideOutline"))
     ? [
-        await sprite("../assets/Outlineless/lisotem.png"),
-        await sprite("../assets/Outlineless/lisotem_left.png"),
-        await sprite("../assets/Outlineless/lisotem_right.png")
+        await sprite("./assets/Outlineless/lisotem.png"),
+        await sprite("./assets/Outlineless/lisotem_left.png"),
+        await sprite("./assets/Outlineless/lisotem_right.png")
     ]
     : [
-        await sprite("../assets/Outlined/lisotem.png"),
-        await sprite("../assets/Outlined/lisotem_left.png"),
-        await sprite("../assets/Outlined/lisotem_right.png")
+        await sprite("./assets/Outlined/lisotem.png"),
+        await sprite("./assets/Outlined/lisotem_left.png"),
+        await sprite("./assets/Outlined/lisotem_right.png")
     ]
 
 const player_type = {
