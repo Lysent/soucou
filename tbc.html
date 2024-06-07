@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soucou</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: url('./assets/winscreen.png') no-repeat center center;
+            background-size: contain;
+            background-color: #212121;
+            pointer-events: none;
+            -webkit-user-select: none; /* Safari */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE10+/Edge */
+            user-select: none; /* Standard */
+        }
+
+        .clickable {
+            position: absolute;
+            width: 100%;
+            height: 33.33%;
+        }
+
+        .top {
+            top: 99%;
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+    <script>
+        document.onclick = () => location.href = "./game.html"
+        if(localStorage.getItem("languageScript") == "fr") {
+            const bg = document.querySelector(".background");
+            bg.style.background = `url('./assets/winscreen_fr.png') no-repeat center center`;
+            bg.style.backgroundColor = "#212121";
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings Page</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            background: url('./assets/winscreen.png') no-repeat center center;
+            background-size: contain;
+            background-color: black; /* Fallback color for empty space */
+        }
+
+        .settings-container {
+            position: relative;
+            z-index: 1; /* Ensure it is above the background */
+            background-color: rgba(255, 255, 255, 0.8); /* Optional: Add a semi-transparent background for readability */
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            margin: auto;
+            top: 50%;
+            transform: translateY(-50%);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .apply-button {
+            display: block;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="settings-container">
+        <label>
+            <input type="checkbox" id="languageToggle"> <span id="languageLabel">French instead of English</span>
+        </label>
+        <div class="difficulty-container">
+            <label id="difficultyLabel">Difficulty</label>
+            <label>
+                <input type="radio" name="difficulty" value="easy"> <span id="easyLabel">Favoured</span>
+            </label>
+            <label>
+                <input type="radio" name="difficulty" value="normal" checked> <span id="normalLabel">Mortal</span>
+            </label>
+            <label>
+                <input type="radio" name="difficulty" value="hard"> <span id="hardLabel">Demigod</span>
+            </label>
+            <label>
+                <input type="radio" name="difficulty" value="nightmare"> <span id="nightmareLabel">Celestial</span>
+            </label>
+            <label>
+                <input type="radio" name="difficulty" value="impossible"> <span id="impossibleLabel">Totality</span>
+            </label>
+        </div>
+        <label>
+            <input type="checkbox" id="outlineToggle"> <span id="outlineLabel">Hide Outlines</span>
+        </label>
+        <label>
+            <input type="checkbox" id="hitboxToggle"> <span id="hitboxLabel">Enable Hitboxes</span>
+        </label>
+        <label>
+            <input type="checkbox" id="debugToggle"> <span id="debugLabel">Show Performance</span>
+        </label>
+        <button class="apply-button" id="applyButton">Apply and Return</button>
+    </div>
+</body>
+</html>

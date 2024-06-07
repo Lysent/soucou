@@ -8,6 +8,9 @@ const addSound = (name, url) => sounds[name] = new Howl({
 });
 
 addSound("rlds", "../assets/sound/rlds.mp3");
+addSound("lte", "../assets/sound/Lisotem's_escape.mp3");
+addSound("cut", "../assets/sound/cutscene.mp3");
+addSound("tit", "../assets/sound/title.mp3");
 
 const playsound = name => {
 	const sound = sounds[name]
