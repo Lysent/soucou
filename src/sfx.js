@@ -6,11 +6,11 @@ const addSound = (name, url) => sounds[name] = new Howl({
 	src: [url],
 	html5: true
 });
-
+addSound("tit", "../assets/sound/title.mp3");
+addSound("cut", "../assets/sound/cutscene.mp3");
 addSound("rlds", "../assets/sound/rlds.mp3");
 addSound("lte", "../assets/sound/Lisotem's_escape.mp3");
-addSound("cut", "../assets/sound/cutscene.mp3");
-addSound("tit", "../assets/sound/title.mp3");
+addSound("tit", "../assets/sound/cercey.mp3");
 
 const playsound = name => {
 	const sound = sounds[name]
