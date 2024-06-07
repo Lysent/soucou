@@ -34,7 +34,8 @@ const state = {
                     const eproc = me;
 
                     // music
-                    eproc.escapemusic = playsound("lte")
+                    eproc.escapemusic = playsound("lte");
+                    eproc.escapemusic.loop();
 
                     // custom generators
                     const center = canvas.width / 2;
@@ -212,6 +213,7 @@ const state = {
 
                                     // boss music
                                     eproc.bossmusic = playsound("cerc");
+                                    eproc.bossmusic.loop();
 
                                     wait(me, me => next(), 200);
                                 }
