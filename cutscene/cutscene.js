@@ -1,3 +1,5 @@
+import { playsound } from "../src/sfx.js";
+
 const lang = localStorage.getItem('languageScript') || "en";
 console.log(lang);
 const scripts = {
@@ -231,3 +233,7 @@ const adjustsize = () => {
 };
 setInterval(() => adjustsize(), 100);
 adjustsize();
+
+// play audio
+const music = playsound("cut");
+music.loop(true);

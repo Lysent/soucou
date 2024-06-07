@@ -33,6 +33,8 @@ const state = {
                     // reference
                     const eproc = me;
 
+                    // music
+                    eproc.escapemusic = playsound("lte")
 
                     // custom generators
                     const center = canvas.width / 2;
@@ -171,7 +173,10 @@ const state = {
                                 me.shooting = true;
                                 animate(me, me => {
                                     const bullet = summon("bullet", here, { ...me.pos, y: me.pos.y + 5 }, { rot });
-                                    velocityFacing(bullet, 1.6)
+                                    velocityFacing(bullet, 1.6);
+
+                                    // bullet sound
+                                    playsound("bigbullet");
                                 }, 20, 4)
                                 wait(me, me => me.shooting = false, 20 * 4);
                             }, 200));
@@ -202,8 +207,11 @@ const state = {
                                 if (numgoons == 0) {
                                     destroy();
 
+                                    // stop lisotem escape music
+                                    eproc.escapemusic.fade(1, 0, 2000);
+
                                     // boss music
-                                    eproc.bossmusic = playsound("rlds");
+                                    eproc.bossmusic = playsound("cerc");
 
                                     wait(me, me => next(), 200);
                                 }
@@ -284,6 +292,9 @@ const state = {
 
                                         loop(me, me => {
                                             me.rot += Math.PI / 8;
+
+                                            // damage sound
+                                            playsound("enemyhit");
                                         }, 10);
                                         wait(me, me => location.href = "./cutscene/video.html", 500);
                                     }
@@ -297,8 +308,11 @@ const state = {
                                     animate(me, me => {
                                         const lbullet = summon("bullet", here, { x: me.pos.x - 10, y: me.pos.y + 5 }, { rot });
                                         const rbullet = summon("bullet", here, { x: me.pos.x + 10, y: me.pos.y + 5 }, { rot });
-                                        velocityFacing(lbullet, 1.6)
-                                        velocityFacing(rbullet, 1.6)
+                                        velocityFacing(lbullet, 1.6);
+                                        velocityFacing(rbullet, 1.6);
+
+                                        // bullet sound
+                                        playsound("bigbullet");
                                     }, 32, 6);
                                 }, 400)
                             }, 200);

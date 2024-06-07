@@ -75,6 +75,10 @@ const makeHud = player => entity("hud", {
     loop(me, me => {
         // health
         me.takingDamage ? me.healthColor = me.healthColor == "red" ? "white" : "red" : me.healthColor = "red";
+        if(me.takingDamage){
+            // damage sound
+            playsound("hit");
+        }
 
         // death
         me.dead ? me.fg = me.fg == false ? true : false : me.fg = false;

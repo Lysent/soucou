@@ -41,7 +41,9 @@
 </head>
 <body>
     <div class="background"></div>
-    <script>
+    <script type="module">
+        import { playsound } from "./src/sfx.js";
+
         document.onclick = () => location.href = "./game.html"
         if(localStorage.getItem("languageScript") == "fr") {
             const bg = document.querySelector(".background");
@@ -49,6 +51,9 @@
             bg.style.backgroundColor = "#212121";
             bg.style.backgroundSize = "contain";
         };
+
+        const music = playsound("cut");
+        music.loop(true);
     </script>
 </body>
 </html>

@@ -52,13 +52,18 @@
     <div class="clickable top" onclick="window.location.href='./cutscene/cutscene.html'"></div>
     <div class="clickable middle" onclick="window.location.href='./settings.html#s'"></div>
     <div class="clickable bottom" onclick="window.location.href='https://www.google.com/'"></div>
-    <script>
+    <script type="module">
+        import { playsound } from "./src/sfx.js";
+
         if(localStorage.getItem("languageScript") == "fr") {
             const bg = document.querySelector(".background")
             bg.style.background = `url('./assets/soucou_title_screen_fr.png') no-repeat center center`;
             bg.style.backgroundColor = "#212121";
             bg.style.backgroundSize = "contain";
         };
+
+        const music = playsound("tit");
+        music.loop(true);
     </script>
 </body>
 </html>

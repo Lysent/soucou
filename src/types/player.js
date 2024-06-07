@@ -1,6 +1,7 @@
 import { entity, entityDistanceSort, faceEntity, loop, pointDistance, remove, summon, velocityFacing, velocityFacingAdd, wait } from "../../lib/generators.js";
 import { sprite, procedure } from "../../lib/assetloader.js";
 import d from "../difficulty.js";
+import { playsound } from "../sfx.js";
 
 const _sprites = !!Number(localStorage.getItem("hideOutline"))
     ? [
@@ -67,6 +68,9 @@ const _corrupt = (here, me, distance, limit, action) => {
         if (typeof e.health === 'number') return e.health -= 1;
         remove(here, e);
         action(e);
+
+        // hit sound
+        playsound("enemyhit");
     });
     return corruptibles.length;
 }
@@ -161,6 +165,9 @@ const makePlayer = () => entity("player", { friction: Infinity, health: d.player
                     break;
             }
             me.ccooldown = 100;
+
+            // corrupt sound
+            const csfx = playsound("corrupt");
         }
     }, 0);
 
@@ -170,8 +177,7 @@ const makePlayer = () => entity("player", { friction: Infinity, health: d.player
         const hud = me.hud;
         if (damaging.length > 0) {
             hud.takingDamage = true;
-            me.health > 0 ? me.health-- : 0
-            //damaging.forEach(() => me.health > 0 ? me.health-- : 0);
+            me.health > 0 ? me.health-- : 0;
         } else {
             hud.takingDamage = false;
         }
