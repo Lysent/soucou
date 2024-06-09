@@ -3,7 +3,7 @@ import { Howl } from "./howler.js";
 const sounds = {};
 
 const addSound = (name, url, params = {}) => sounds[name] = new Howl({
-	src: [url],
+	src: [new URL(url, import.meta.url)],
 	html5: true,
 	...params
 });
