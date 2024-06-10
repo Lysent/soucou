@@ -93,7 +93,7 @@
             <input type="checkbox" id="debugToggle"> <span id="debugLabel">Show Performance</span>
         </label>
         <div>
-            <p><b>⠀⠀⠀Controls</b><br>
+            <p id="textLabel"><b>⠀⠀⠀Controls</b><br>
                 ⠀⠀⠀WASD / ↑←↓→ - Movement<br>
                 ⠀⠀⠀C / X - Corruption (Attack)<br>
                 ⠀⠀⠀Hold C / Hold X / - Special Corruption (Attack)<br>
@@ -165,7 +165,12 @@
                 outlineToggle: "Hide Outlines",
                 hitboxToggle: "Enable Hitboxes",
                 debugToggle: "Show Performance",
-                applyButton: "Apply and Return"
+                applyButton: "Apply and Return",
+                textLabel: `<b>⠀⠀⠀Controls</b><br>
+                ⠀⠀⠀WASD / ↑←↓→ - Movement<br>
+                ⠀⠀⠀C / X - Corruption (Attack)<br>
+                ⠀⠀⠀Hold C / Hold X / - Special Corruption (Attack)<br>
+                ⠀⠀⠀N / Esc - Pause</p>`
             },
             fr: {
                 languageToggle: "Français au lieu de l'Anglais",
@@ -178,7 +183,12 @@
                 outlineToggle: "Masquer les contours",
                 hitboxToggle: "Afficher les hitboxes",
                 debugToggle: "Afficher les performances",
-                applyButton: "Appliquer"
+                applyButton: "Appliquer",
+                textLabel: `<b>⠀⠀⠀Contrôles</b><br>
+                ⠀⠀⠀WASD / ↑←↓→ - Mouvements<br>
+                ⠀⠀⠀C / X - Corruption (Attack)<br>
+                ⠀⠀⠀Hold C / Hold X / - Corruption spéciale(Attack)<br>
+                ⠀⠀⠀N / Esc - Pause`
             }
         };
 
@@ -195,6 +205,7 @@
             document.getElementById('hitboxLabel').textContent = keys.hitboxToggle;
             document.getElementById('debugLabel').textContent = keys.debugToggle;
             document.getElementById('applyButton').textContent = keys.applyButton;
+            document.getElementById('textLabel').innerHTML = keys.textLabel;
         }
     </script>
 </body>
